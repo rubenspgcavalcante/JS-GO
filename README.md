@@ -32,12 +32,14 @@ So we can add some values to the attributes:
     fooCustomer.email.set("foo@bar.com");
 
 If any value can not be casted or is not valid to a type, the set method will throw a `typeError`, e.g.
+
     fooCustomer.age.set(0); //Age can't be null
     fooCustomer.age.set(-10); //This age is not a valid positive type
     fooCustomer.email.set("imnotaemail"); //This not a valid email type
 
 As you can see, the 0 (and the "" empyt string) are considered null.  
 You can validade the values before set then with the validate method. This method returns a object {valid, error}.
+
     fooCustomer.age.validate(10); //This will return {valid: true, error: null}
     fooCustomer.age.validate(-10); //This will return {valid: false, error: TypeError("age must be a positive")}
 
