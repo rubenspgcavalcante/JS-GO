@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="pt">
+    <head>
+        <title>Teste GenericObject</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="Content-Language" content="pt">
+        <link rel="stylesheet" href="main.css" type="text/css" media="screen" />
+    </head>
+
+    <body>
+        <div id="mainContainer">
+            <form id="genericObjectTest" method="POST" action="#">
+                <label for="nome">Nome*:</label>
+                <input type="text" id="nome" name="nome" class="attr"/>
+                <span class="error" id="nomeError"></span>
+
+                <label for="idade">Idade*:</label>
+                <input type="text" id="idade" name="idade" class="attr"/>
+                <span class="error" id="idadeError"></span>
+
+                <label for="email">Email*:</label>
+                <input type="text" id="email" name="email" class="attr"/>
+                <span class="error" id="emailError"></span>
+
+                <label for="cpf">CPF:</label>
+                <input type="text" id="cpf" name="cpf" class="attr"/>
+                <span class="error" id="cpfError"></span>
+
+                <label for="fone">Fone:</label>
+                <input type="text" id="fone" name="fone" class="attr"/>
+                <span class="error" id="foneError"></span>
+
+                <div class="formButtons">
+                    <input type="submit"  value="salvar" />
+                    <input type="reset"  value="cancelar" />
+                </div>
+            </form>
+        </div>
+    </body>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="../object.js"></script>
+    <script type="text/javascript" src="sample.js"></script>
+</html>
