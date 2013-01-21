@@ -1,12 +1,12 @@
 #!/usr/bin/env python
-#
+# -*- coding: utf8 -*- 
+
 # Script to minify the jsgo.js
 # Using the Closure Compiler API
 # See more in https://developers.google.com/closure/compiler/docs/api-ref
 #
 # author: Rubens Pinheiro Goncalves Cavalcante
 # email: rubenspgcavalcante@gmail.com
-#
 
 import urllib
 import httplib
@@ -61,7 +61,7 @@ def showStatistics(statistics):
 def closureCompilerCall(filePath, outputInfo):
     print "Making request " + outputInfo + "...",
     sys.stdout.flush()
-    
+
     content = loadFile(filePath)
     params = {\
         "js_code": content, \
@@ -94,7 +94,7 @@ def minify(giveStatistics):
             statistics = errors = responseParser(closureCompilerCall("jsgo.js", "statistics"))
             showStatistics(statistics)
 
-        minFile.write(response["compiledCode"])
+        minFile.write(response["compiledCode"].encode("utf-8"))
 
 
 if __name__ == "__main__":

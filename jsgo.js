@@ -3,12 +3,14 @@
  * If the user tries to set a value in a non attribute or of a
  * diferent type (if defined), generates a error.
  * 
+ * @license GPLv3
  * @author Rubens Pinheiro Gonçalves Cavalcante
+ * @email rubenspgcavalcante@gmail.com
  * @since jan 2013
  * @version 0.1b
+ *
  * @param {Array} attributes containing {name, type} objects and optionally {notNull, useCast}
  * @param {Object} (Optional) child who will extend
- * @returns
  */
 GenericObject = function(attributes, child){
     /* -------------------------------- Object methods ------------------------------- */
