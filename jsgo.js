@@ -13,6 +13,7 @@
 GenericObject = function(attributes, child){
     /* -------------------------------- Object methods ------------------------------- */
     var that = this;
+    var _size = 0;
     var types = {};
     var notNulls = {};
 
@@ -43,11 +44,21 @@ GenericObject = function(attributes, child){
         return JSON.stringify(this.toObject());
     };
 
+    /**
+     * Returns the size (count of attributes)
+     *
+     * @return {Number}
+     */
+    this.size = function(){
+        return _size;
+    }
+
 
     /* ------------------------------ attribute methods ------------------------------ */
     for(i in attributes){
         var attr = attributes[i].name.replace(/\ /g, "_");
         this[attr] = {name:attr, value: null};
+        _size++;
 
         types[attr] = (attributes[i].type == undefined) ? "undefined" : attributes[i].type;
         notNulls[attr] = (attributes[i].notNull == true)? true : false;
@@ -265,4 +276,18 @@ GenericObject.newType = function(type, validation, cast){
     }
 
     this.typesLibrary[type] = {validate: validation};
+}
+
+
+/**
+ * Return a list of all types registered
+ *
+ * @return {Object} return a list of types
+ */
+GenericObject.types = function(){
+    var res = [];
+    for(i in types = this.typesLibrary){
+        res.push(i);
+    }
+    return res;
 }
