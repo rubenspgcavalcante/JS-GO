@@ -135,7 +135,7 @@ GenericObject.typesLibrary = {
         }
     },
 
-    function: {
+    'function': {
         validate: function(value){
             return typeof(value) == "function";
         }
@@ -178,14 +178,14 @@ GenericObject.typesLibrary = {
     email:{
         validate: function(value){
             return /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(value);
-        },
+        }
     },
 
     phone:{
         validate: function(value){
             return /^(\+[0-9]{2})?[0-9]{3}[0-9]*$/.test(value);
-        },
-    },
+        }
+    }
 };
 
 /**
