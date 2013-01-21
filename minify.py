@@ -1,7 +1,14 @@
+#!/usr/bin/env python
+#
+# Script to minify the jsgo.js
+# author: Rubens Pinheiro Goncalves Cavalcante
+# email: rubenspgcavalcante@gmail.com
+#
+
 import urllib
 import httplib
 import json
-
+import sys
 
 def loadFile(filePath):
     codeFile = open(filePath, "r")
@@ -39,13 +46,18 @@ def showErrors(errors):
 
 def showStatistics(statistics):
     print "Some statistics:"
-    for error in errors["errors"]:
-        print "\toriginal size:   " + str(error["originalSize"])
-        print "\tcompressed size: " + str(error["compressedSize"])
-        print "\tcompile time:    " + str(error["compileTime"]) + "\n"
+    statistics = statistics["statistics"]
+
+    print "\toriginal size:     " + str(statistics["originalSize"]) + " bytes"
+    print "\tcompressed size:   " + str(statistics["compressedSize"]) + " bytes"
+    print "\tgziped size:       " + str(statistics["originalGzipSize"]) + " bytes"
+    print "\tgziped compressed: " + str(statistics["compressedGzipSize"]) + " bytes"
+    print "\tcompile time:      " + str(statistics["compileTime"]) + " seconds \n"
 
 
 def closureCompilerCall(filePath, outputInfo):
+    print "Making request...",
+
     content = loadFile(filePath)
     params = {\
         "js_code": content, \
@@ -57,14 +69,18 @@ def closureCompilerCall(filePath, outputInfo):
     post = urllib.urlencode(params)
     headers = { "Content-type": "application/x-www-form-urlencoded" }
     conn = httplib.HTTPConnection('closure-compiler.appspot.com')
+
     conn.request('POST', '/compile', post, headers)
     response = conn.getresponse()
-
+    
+    print "...done!"
     return response.read()
 
 
-def minify():
+def minify(giveStatistics):
     minFile = open("jsgo.min.js", "w")
+
+    
     response = responseParser(closureCompilerCall("jsgo.js", "compiled_code"))
 
     if "compiledCode" not in response or response["compiledCode"] == "":
@@ -72,9 +88,20 @@ def minify():
         showErrors(errors)
     
     else:
-        statistics = errors = responseParser(closureCompilerCall("jsgo.js", "statistics"))
-        showStatistics(statistics)
+        if giveStatistics == True:
+            statistics = errors = responseParser(closureCompilerCall("jsgo.js", "statistics"))
+            showStatistics(statistics)
+
         minFile.write(response["compiledCode"])
 
 
-minify()
+if __name__ == "__main__":
+    if "--help" in sys.argv:
+        print "How to run:"
+        print "python minify [--statistics]"
+
+    elif "--statistics" in sys.argv:
+        minify(True)
+
+    else:
+        minify(False)
