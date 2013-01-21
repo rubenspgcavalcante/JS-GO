@@ -18,6 +18,32 @@ GenericObject = function(attributes, child){
 
     /* ------------------------------ EndPrivate ------------------------------ */
 
+    /**
+     * Returns the attributes in a simple object
+     *
+     * @return {Object}
+     */
+    this.toObject = function(){
+        var simpleObject = {};
+        for(index in attributes){
+            var attribute = attributes[index];
+            var checkValue = typeof(attribute.value) == "undefined";
+            simpleObject[attribute.name] = checkValue ? null : attribute.value;
+        }
+
+        return simpleObject;
+    };
+
+    /**
+     * Returns the attributes in a json format
+     *
+     * @return {String}
+     */
+    this.toJson = function(){
+        return JSON.stringify(this.toObject());
+    };
+
+
     for(i in attributes){
         var attr = attributes[i].name;
         this[attr] = {name:attr, value: null};
