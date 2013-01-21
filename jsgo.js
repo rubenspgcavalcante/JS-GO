@@ -3,6 +3,9 @@
  * If the user tries to set a value in a non attribute or of a
  * diferent type (if defined), generates a error.
  * 
+ * @author Rubens Pinheiro Gonçalves Cavalcante
+ * @since jan 2013
+ * @version 0.1b
  * @param {Arary}{Object} attributes containing {name, type} objects
  * @param {Object} (Optional) child who will extend
  * @returns
