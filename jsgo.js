@@ -166,7 +166,12 @@ GenericObject.typesLibrary = {
             return typeof(value) == "string";
         },
         cast: function(value){
-            return String(value);
+            if(typeof(value) == "object"){
+                return value.toSource();
+            }
+            else{
+                return String(value);
+            }
         }
     },
 
