@@ -27,12 +27,13 @@ GenericObject = function(attributes, child){
         var simpleObject = {};
         for(index in attributes){
             var attribute = attributes[index];
-            var checkValue = typeof(attribute.value) == "undefined";
-            simpleObject[attribute.name] = checkValue ? null : attribute.value;
+            var checkValue = typeof(that[attribute.name].value) == "undefined";
+            simpleObject[attribute.name] = checkValue ? null : that[attribute.name].value;
         }
 
         return simpleObject;
     };
+
 
     /**
      * Returns the attributes in a json format

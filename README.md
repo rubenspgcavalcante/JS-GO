@@ -41,7 +41,7 @@ As you can see, the 0 (and the "" empyt string) are considered null.
 You can validade the values before set then with the validate method. This method returns a object {valid, error}.
 
     fooCustomer.age.validate(10); //This will return {valid: true, error: null}
-    fooCustomer.age.validate(-10); //This will return {valid: false, error: TypeError("age must be a positive")}
+    fooCustomer.age.validate(-10); //This will return {valid: false, error: TypeError("age must be a positive")
 
 Now we'll create a new type :)  
 We'll use the static method newType. We pass the name of the type, a function to validade and optionally other function to be a caster.
@@ -50,11 +50,12 @@ We'll use the static method newType. We pass the name of the type, a function to
         return /^(ni)(\ ni)*$/.test(value);
     });
 
-Now we've created the ni type, and let create something to use this type
+Now we've created the ni type, and lets create something to use this type
 
     var Knight = function(){
         return new GenericObject([
-            {name: "say", type: "ni"}
+            {name: "say", type: "ni"},
+            {name: "otherAtrribute", type: "string"}
         ]);
     }
 
@@ -62,6 +63,13 @@ Now we've created the ni type, and let create something to use this type
 
     michaelP.say.set("ni ni ni");
     alert(michaelP.say.get()); // ni ni ni
+
+We can retrieve the atributes too in a simple object or in a json format:
+
+    michaelP.toObject(); // Returns a object {say: 'ni ni ni', otherAttribute: null}
+    michaelP.toJson(); //Returns a string "{"say": 'ni ni ni', "otherAttribute": null}"
+
+It's usefull when needs to send this data to a webserver.
 
 ##Techincal Information
 
