@@ -65,7 +65,7 @@ Now we've created the ni type, and let create something to use this type
 
 ##Techincal Information
 
-It still in aplha so I'm developing in Firefox 18.0 and not have tested in others browsers. In future I will test in various browsers :)
+It still in beta so I'm developing in Firefox 18.0 and not have tested in others browsers. In future I will test in various browsers :)
 
 ##Author
 
@@ -75,4 +75,4 @@ email: [rubenspgcavalcante@gmail.com](mailto:rubenspgcavalcante@gmail.com)
 ##License & Rights
 
 Using GNU LESSER GENERAL PUBLIC LICENSE *Version 3, 29 June 2007*  
-[gnu.org](http://www.gnu.org/copyleft/gpl.html,"GPLv3")  
+[gnu.org](http://www.gnu.org/copyleft/gpl.html)  
