@@ -6,7 +6,7 @@
  * @author Rubens Pinheiro Gonçalves Cavalcante
  * @since jan 2013
  * @version 0.1b
- * @param {Arary}{Object} attributes containing {name, type} objects
+ * @param {Array} attributes containing {name, type} objects and optionally {notNull, useCast}
  * @param {Object} (Optional) child who will extend
  * @returns
  */
@@ -16,6 +16,7 @@ GenericObject = function(attributes, child){
     var _size = 0;
     var types = {};
     var notNulls = {};
+    var useCast = {};
 
     /**
      * Returns the attributes in a simple object
@@ -62,6 +63,7 @@ GenericObject = function(attributes, child){
 
         types[attr] = (attributes[i].type == undefined) ? "undefined" : attributes[i].type;
         notNulls[attr] = (attributes[i].notNull == true)? true : false;
+        useCast[attr] = (attributes[i].useCast == true)? true : false;
 
         /**
          * Validates the value passed based on the type of the object
@@ -71,7 +73,10 @@ GenericObject = function(attributes, child){
         this[attr].validate = function(value){
             var name = this.name;
             var type = GenericObject.typesLibrary[types[name]];
-            value = that[name].cast(value);
+
+            if(useCast[attr]){
+                value = that[name].cast(value);
+            }
 
             if(value == null || value == ""){
                 if(notNulls[name]){
@@ -116,7 +121,10 @@ GenericObject = function(attributes, child){
          */
         this[attr].set = function(value){
 
-            value = this.cast(value);            
+            if(useCast[attr]){
+                value = this.cast(value);            
+            }
+
             var validation = this.validate(value);
             
             if(!validation.valid){
@@ -141,7 +149,7 @@ GenericObject = function(attributes, child){
          * @return {Object}
          */
         this[attr].info = function(){
-            return {type: types[attr], notNull: notNulls[attr]};
+            return {type: types[attr], notNull: notNulls[attr], useCast: useCast[attr]};
         }
     }
 

@@ -12,11 +12,12 @@ Comes with some default methods (set, get, validate and cast) to each attribute 
 First, how to create a new instace with this object. Bellow we will use the customer class as 
 a example.
 
-First we create a new class Customer, wich the respective attributes, and create one object. Note the 'Not empty' attribute will be converted to the name Not_empty. All whitespaces will be turned into underline.
+First we create a new class Customer, wich the respective attributes, and create one object. Note the 'Not empty' attribute will be converted to the name Not_empty. All whitespaces will be turned into underline.  
+Each attribute must be in the format {name, type, notNull, useCast}, the two last are optional.
 
     var Customer = function(){
         return new GenericObject([
-            {name: "name", type: "string", notNull: true},
+            {name: "name", type: "string", notNull: true, useCast: true},
             {name: "age", type:"positive", notNull: true},
             {name: "email", type:"email"},
             {name: "phone", type: "phone"},
@@ -30,12 +31,13 @@ First we create a new class Customer, wich the respective attributes, and create
 So we can add some values to the attributes:
 
     fooCustomer.name.set("foo");
+    fooCustomer.name.set(10); //The cast will turn 10 into "10"
     fooCustomer.age.set(23);
     fooCustomer.email.set("foo@bar.com");
     fooCustomer.anything.set("The answer");
     fooCustomer.anything.set(42);
 
-If any value can't be casted or is not valid to a type, the set method will throw a `typeError`, e.g.
+If any value can't be casted (if enabled) or is not valid to a type, the set method will throw a `typeError`, e.g.
 
     fooCustomer.age.set(0); //Age can't be null
     fooCustomer.age.set(-10); //This age is not a valid positive type
@@ -79,7 +81,23 @@ We can retrieve the atributes too in a simple object or in a json format:
     michaelP.toObject(); // Returns a object {say: 'ni ni ni', otherAttribute: null}
     michaelP.toJson(); //Returns a string "{"say": 'ni ni ni', "otherAttribute": null}"
 
-It's usefull when needs to send this data to a webserver.
+It's usefull when needs to send this data to a webserver.  
+
+##Other methods
+###size
+
+---
+Return the size based only in the attributes
+
+    fooCustomer.size(); // Returns 6
+
+###types
+
+---
+*Static*  
+Return a list of registered types, including the custom types builded using GenericObject.newType method:
+
+    GenericObject.types();
 
 ##Techincal Information
 
