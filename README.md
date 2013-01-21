@@ -21,7 +21,7 @@ First we create a new class Customer, wich the respective attributes, and create
             {name: "email", type:"email"},
             {name: "phone", type: "phone"},
             {name: "anything"}, //Undefined type, a normal js variable :)
-            {name: "Not empty", notNull: true} //Anything but not 0, "", null, undefined
+            {name: "Not empty", notNull: true} //Anything but not 0, "", null and undefined
         ]);
     };
 
@@ -35,7 +35,7 @@ So we can add some values to the attributes:
     fooCustomer.anything.set("The answer");
     fooCustomer.anything.set(42);
 
-If any value can not be casted or is not valid to a type, the set method will throw a `typeError`, e.g.
+If any value can't be casted or is not valid to a type, the set method will throw a `typeError`, e.g.
 
     fooCustomer.age.set(0); //Age can't be null
     fooCustomer.age.set(-10); //This age is not a valid positive type
@@ -49,8 +49,9 @@ You can validade the values before set then with the validate method. This metho
     fooCustomer.age.validate(-10); //This will return {valid: false, error: TypeError("age must be a positive")
 
 We can verify the type and if the attribute can be null using the method info:
-    fooCustomer.info().type; // 'email'
-    fooCustomer.info().notNull; // false
+
+    fooCustomer.email.info().type; // 'email'
+    fooCustomer.email.info().notNull; // false
 
 Now we'll create a new type :)  
 We'll use the static method newType. We pass the name of the type, a function to validade and optionally other function to be a caster.
