@@ -11,12 +11,10 @@
  * @returns
  */
 GenericObject = function(attributes, child){
-    /* -------------------------------- Private ------------------------------- */
+    /* -------------------------------- Object methods ------------------------------- */
     var that = this;
     var types = {};
     var notNulls = {};
-
-    /* ------------------------------ EndPrivate ------------------------------ */
 
     /**
      * Returns the attributes in a simple object
@@ -26,7 +24,8 @@ GenericObject = function(attributes, child){
     this.toObject = function(){
         var simpleObject = {};
         for(index in attributes){
-            var attribute = attributes[index];
+            var attribute = attributes[index]
+            attribute.name = attribute.name.replace(/\ /g, "_");
             var checkValue = typeof(that[attribute.name].value) == "undefined";
             simpleObject[attribute.name] = checkValue ? null : that[attribute.name].value;
         }
@@ -45,11 +44,12 @@ GenericObject = function(attributes, child){
     };
 
 
+    /* ------------------------------ attribute methods ------------------------------ */
     for(i in attributes){
-        var attr = attributes[i].name;
+        var attr = attributes[i].name.replace(/\ /g, "_");
         this[attr] = {name:attr, value: null};
 
-        types[attr] = attributes[i].type;
+        types[attr] = (attributes[i].type == undefined) ? "undefined" : attributes[i].type;
         notNulls[attr] = (attributes[i].notNull == true)? true : false;
 
         /**
@@ -123,6 +123,15 @@ GenericObject = function(attributes, child){
         this[attr].get = function(){
             return this.value;
         };
+
+        /**
+         * Get information about the type of this attribute
+         *
+         * @return {Object}
+         */
+        this[attr].info = function(){
+            return {type: types[attr], notNull: notNulls[attr]};
+        }
     }
 
     //If passed any object, extend it
@@ -143,6 +152,15 @@ GenericObject = function(attributes, child){
  */
 GenericObject.typesLibrary = {
     //Native types
+    'undefined': {
+        validate: function(value){
+            return true;
+        },
+        cast: function(value){
+            return value;
+        }
+    },
+
     string: {
         validate: function(value){
             return typeof(value) == "string";

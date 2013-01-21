@@ -11,6 +11,7 @@ var Cliente = function(){
         {name: "email", type:"email", notNull: true},
         {name: "cpf", type:"cpf"},
         {name: "fone", type: "phone"},
+        {name: "sem tipo", notNull: true},
     ]);
 };
 
