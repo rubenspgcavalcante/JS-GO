@@ -24,7 +24,7 @@ var cliente4 = new Cliente();
 
 cliente1.id.set(1);
 cliente2.id.set(2);
-cliente3.id.set(3);
+cliente3.id.set(1);
 cliente4.id.set(4);
 
 var list = new GenericObjectCollection();

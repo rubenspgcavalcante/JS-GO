@@ -27,15 +27,41 @@ GenericObject = function(attributes, child){
 
     var that = this;
     var _size = 0;
+
+    // Where the attributes types will be stored
     var types = {};
+
+    // Where the not null flags will be stored
     var notNulls = {};
+
+    // Where the use cast flags will be stored
     var useCast = {};
 
+    // -------------------------- Building Header -------------------------//
     /**
     * The object header, wich contains some information of this object
     * @static
     */
     this.header = {};
+
+    var format = {};
+    for(i in attributes){
+        var name = attributes[i].name.replace(/\ /g, "_");
+
+        format[name] = {
+            type: attributes[i].type,
+            notNull: attributes[i].notNull,
+            useCast: attributes[i].useCast
+        };
+    }
+
+    Object.defineProperty(this.header, "format", {
+        value: format,
+        writable: false,
+        enumerable: true,
+        configurable: false
+    });
+
 
     Object.defineProperty(this.header, "GenericObject", {
         value: true,
@@ -43,36 +69,8 @@ GenericObject = function(attributes, child){
         enumerable: true,
         configurable: false
     });
+    // ------------------------ End Building Header ------------------------//
 
-
-    /* -------------------------------- Object methods ------------------------------- */
-
-    /**
-     * Returns the attributes in a simple object
-     *
-     * @return {object}
-     */
-    this.toObject = function(){
-        var simpleObject = {};
-        for(index in attributes){
-            var attribute = attributes[index]
-            attribute.name = attribute.name.replace(/\ /g, "_");
-            var checkValue = typeof(that[attribute.name].value) == "undefined";
-            simpleObject[attribute.name] = checkValue ? null : that[attribute.name].value;
-        }
-
-        return simpleObject;
-    };
-
-
-    /**
-     * Returns the attributes in a json format
-     *
-     * @return {string}
-     */
-    this.toJson = function(){
-        return JSON.stringify(this.toObject());
-    };
 
     /**
      * Returns the size (count of attributes)
@@ -81,7 +79,7 @@ GenericObject = function(attributes, child){
      */
     this.size = function(){
         return _size;
-    }
+    };
 
 
     /* ------------------------------ attribute methods ------------------------------ */
@@ -195,8 +193,48 @@ GenericObject = function(attributes, child){
    
 };
 
+
 /**
+ * Returns the attributes in a simple object
+ *
+ * @param {function} callback A function to process each attribute
+ */
+GenericObject.prototype.each = function(callback){
+    var simpleObject = this.toObject();
+    for(index in simpleObject){
+        callback(index, simpleObject[index]);
+    }
+};
+
+
+/**
+ * Returns the attributes in a json format
+ *
+ * @return {string}
+ */
+GenericObject.prototype.toJson = function(){
+    return JSON.stringify(this.toObject());
+};
+
+
+/**
+ * Returns the attributes in a simple object
+ *
+ * @return {object}
+ */
+GenericObject.prototype.toObject = function(){
+    var simpleObject = {};
+    var attributes = this.header.format;
+    for(index in attributes){
+        var name = index;
+        var checkValue = typeof(this[name].value) == "undefined";
+        simpleObject[name] = checkValue ? null : this[name].value;
+    }
+
+    return simpleObject;
+};/**
  * A static object that contains all the types
+ * @static
  */
 GenericObject.typesLibrary = {
     //Native types
@@ -313,7 +351,7 @@ GenericObject.newType = function(type, validation, cast){
     }
 
     this.typesLibrary[type] = {validate: validation};
-}
+};
 
 
 /**
@@ -327,7 +365,7 @@ GenericObject.types = function(){
         res.push(i);
     }
     return res;
-}
+};
 /**
  * A collection ready to contain only generic objects childs
  *
@@ -452,4 +490,73 @@ GenericObjectCollection.prototype.indexOf = function(attr, value){
     else{
         return -1;
     }
+};
+
+/**
+ * Removes the first ocurrence that matchs
+ * 
+ * @param {string} attr Atribute name do search into objects
+ * @param value The value to search
+ * @return {boolean} If removed
+ */
+GenericObjectCollection.prototype.remove = function(attr, value){
+    var res = this._find(attr, value, true);
+    
+    if(res != null){
+        this.objects.splice(res.index, 1);
+        return true;
+    }
+    else{
+        return false;
+    }
+};
+
+/**
+ * Transforms into a list of pure structures
+ * 
+ * @return {Array<Object>}
+ */
+GenericObjectCollection.prototype.toObjects = function(){
+    var structures = [];
+    for(i in this.objects){
+        structures.push(this.objects[i].toObject());
+    }
+
+    return structures;
+};
+
+
+/**
+ * Sorts the collection
+ * 
+ * @param {string} attribute Wich attribute to use as key in sorting
+ * @param {string} order Define if ascending sort. Default "asc"
+ */
+GenericObjectCollection.prototype.sort = function(attribute, order){
+    if(typeof(order) == "undefined" || order != "desc"){
+        order = "asc";
+    }
+    this.objects.sort(function(a, b){
+        a = a[attribute].get();
+        b = b[attribute].get();
+
+        return order == "asc" ? a > b : a < b;
+    });
+};
+
+
+/**
+ * Prints into console into a pretty format
+ */
+GenericObjectCollection.prototype.prettyPrint = function(){
+    var print = "";
+    var list = this.toObjects();
+    for(i in list){
+        print += "index: " + i + "\n";
+        for(j in list[i]){
+            print += "\t" + j + ": " + list[i][j] +"\n";
+        }
+        print += "\n\n";
+    }
+    console.log(print);
 };

@@ -123,3 +123,72 @@ GenericObjectCollection.prototype.indexOf = function(attr, value){
         return -1;
     }
 };
+
+/**
+ * Removes the first ocurrence that matchs
+ * 
+ * @param {string} attr Atribute name do search into objects
+ * @param value The value to search
+ * @return {boolean} If removed
+ */
+GenericObjectCollection.prototype.remove = function(attr, value){
+    var res = this._find(attr, value, true);
+    
+    if(res != null){
+        this.objects.splice(res.index, 1);
+        return true;
+    }
+    else{
+        return false;
+    }
+};
+
+/**
+ * Transforms into a list of pure structures
+ * 
+ * @return {Array<Object>}
+ */
+GenericObjectCollection.prototype.toObjects = function(){
+    var structures = [];
+    for(i in this.objects){
+        structures.push(this.objects[i].toObject());
+    }
+
+    return structures;
+};
+
+
+/**
+ * Sorts the collection
+ * 
+ * @param {string} attribute Wich attribute to use as key in sorting
+ * @param {string} order Define if ascending sort. Default "asc"
+ */
+GenericObjectCollection.prototype.sort = function(attribute, order){
+    if(typeof(order) == "undefined" || order != "desc"){
+        order = "asc";
+    }
+    this.objects.sort(function(a, b){
+        a = a[attribute].get();
+        b = b[attribute].get();
+
+        return order == "asc" ? a > b : a < b;
+    });
+};
+
+
+/**
+ * Prints into console into a pretty format
+ */
+GenericObjectCollection.prototype.prettyPrint = function(){
+    var print = "";
+    var list = this.toObjects();
+    for(i in list){
+        print += "index: " + i + "\n";
+        for(j in list[i]){
+            print += "\t" + j + ": " + list[i][j] +"\n";
+        }
+        print += "\n\n";
+    }
+    console.log(print);
+};

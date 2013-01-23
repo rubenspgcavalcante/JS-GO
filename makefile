@@ -3,6 +3,7 @@ all: build minify
 build:
 	cat license-header.txt > jsgo.js
 	cat source/jsgo-object.js >> jsgo.js
+	cat source/jsgo-object-types.js >> jsgo.js
 	cat source/jsgo-collection.js >> jsgo.js
 
 minify:

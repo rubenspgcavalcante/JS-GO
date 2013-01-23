@@ -20,9 +20,6 @@ GenericObject = function(attributes, child){
     var that = this;
     var _size = 0;
 
-    // Where the attributes values will be stored
-    var storage = {};
-
     // Where the attributes types will be stored
     var types = {};
 
@@ -32,11 +29,31 @@ GenericObject = function(attributes, child){
     // Where the use cast flags will be stored
     var useCast = {};
 
+    // -------------------------- Building Header -------------------------//
     /**
     * The object header, wich contains some information of this object
     * @static
     */
     this.header = {};
+
+    var format = {};
+    for(i in attributes){
+        var name = attributes[i].name.replace(/\ /g, "_");
+
+        format[name] = {
+            type: attributes[i].type,
+            notNull: attributes[i].notNull,
+            useCast: attributes[i].useCast
+        };
+    }
+
+    Object.defineProperty(this.header, "format", {
+        value: format,
+        writable: false,
+        enumerable: true,
+        configurable: false
+    });
+
 
     Object.defineProperty(this.header, "GenericObject", {
         value: true,
@@ -44,36 +61,8 @@ GenericObject = function(attributes, child){
         enumerable: true,
         configurable: false
     });
+    // ------------------------ End Building Header ------------------------//
 
-
-    /* -------------------------------- Object methods ------------------------------- */
-
-    /**
-     * Returns the attributes in a simple object
-     *
-     * @return {object}
-     */
-    this.toObject = function(){
-        var simpleObject = {};
-        for(index in attributes){
-            var attribute = attributes[index]
-            attribute.name = attribute.name.replace(/\ /g, "_");
-            var checkValue = typeof(that[attribute.name].value) == "undefined";
-            simpleObject[attribute.name] = checkValue ? null : that[attribute.name].value;
-        }
-
-        return simpleObject;
-    };
-
-
-    /**
-     * Returns the attributes in a json format
-     *
-     * @return {string}
-     */
-    this.toJson = function(){
-        return JSON.stringify(this.toObject());
-    };
 
     /**
      * Returns the size (count of attributes)
@@ -82,7 +71,7 @@ GenericObject = function(attributes, child){
      */
     this.size = function(){
         return _size;
-    }
+    };
 
 
     /* ------------------------------ attribute methods ------------------------------ */
@@ -196,136 +185,43 @@ GenericObject = function(attributes, child){
    
 };
 
+
 /**
- * A static object that contains all the types
+ * Returns the attributes in a simple object
+ *
+ * @param {function} callback A function to process each attribute
  */
-GenericObject.typesLibrary = {
-    //Native types
-    'undefined': {
-        validate: function(value){
-            return true;
-        },
-        cast: function(value){
-            return value;
-        }
-    },
-
-    string: {
-        validate: function(value){
-            return typeof(value) == "string";
-        },
-        cast: function(value){
-            if(typeof(value) == "object"){
-                return value.toSource();
-            }
-            else{
-                return String(value);
-            }
-        }
-    },
-
-    number: {
-        //Can be used as float to
-        validate: function(value){
-            return typeof(value) == "number";
-        },
-        cast: function(value){
-            return Number(value);
-        }
-    },
-
-    'function': {
-        validate: function(value){
-            return typeof(value) == "function";
-        }
-    },
-
-    object: {
-        validate: function(value){
-            return typeof(value) == "object";
-        }
-    },
-
-    //Custom types
-    integer: {
-        validate: function(value){
-            return typeof(value) == "number" && /^[+-]?[0-9]+$/.test(value);
-        },
-        cast: function(value){
-            return Number(value);
-        }
-    },
-
-    positive: {
-        validate: function(value){
-            return typeof(value) == "number" && value >= 0;
-        },
-        cast: function(value){
-            return Number(value);
-        }
-    },
-
-    negative: {
-        validate: function(value){
-            return typeof(value) == "number" && value <= 0;
-        },
-        cast: function(value){
-            return Number(value);
-        }
-    },
-
-    email:{
-        validate: function(value){
-            return /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(value);
-        }
-    },
-
-    phone:{
-        validate: function(value){
-            return /^(\+[0-9]{2})?[0-9]{3}[0-9]*$/.test(value);
-        }
+GenericObject.prototype.each = function(callback){
+    var simpleObject = this.toObject();
+    for(index in simpleObject){
+        callback(index, simpleObject[index]);
     }
 };
 
+
 /**
- * Add to the types library a new type so the
- * user can customise this basic object
+ * Returns the attributes in a json format
  *
- * @param {string} type The name of the new type
- * @param {function} validation The function to validade the new type,
- *        must have one parameter (the value to validade) and return a boolean
- * @param {function} cast (Optional) A function to be a default caster
+ * @return {string}
  */
-GenericObject.newType = function(type, validation, cast){
-    if(typeof(type) == "undefined" || type == null){
-        throw TypeError("First parameter must contain a string representing the name of the type");
-    }
-
-    else if(typeof(validation) != "function" || validation == null){
-        throw TypeError("The second parameter must contain a function");
-    }
-
-    else if(typeof(cast) != "undefined" && typeof(cast) != "function"){
-        throw TypeError("The third parameter must contain a function");
-    }
-
-    else if(typeof(validation("test")) != "boolean"){
-        throw Error("The validation function must return boolean");
-    }
-
-    this.typesLibrary[type] = {validate: validation};
-}
+GenericObject.prototype.toJson = function(){
+    return JSON.stringify(this.toObject());
+};
 
 
 /**
- * Return a list of all types registered
+ * Returns the attributes in a simple object
  *
- * @return {Object} return a list of types
+ * @return {object}
  */
-GenericObject.types = function(){
-    var res = [];
-    for(i in types = this.typesLibrary){
-        res.push(i);
+GenericObject.prototype.toObject = function(){
+    var simpleObject = {};
+    var attributes = this.header.format;
+    for(index in attributes){
+        var name = index;
+        var checkValue = typeof(this[name].value) == "undefined";
+        simpleObject[name] = checkValue ? null : this[name].value;
     }
-    return res;
-}
+
+    return simpleObject;
+};
