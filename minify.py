@@ -81,9 +81,9 @@ def closureCompilerCall(filePath, outputInfo):
     return response.read()
 
 
-def minify(giveStatistics):
+def minify(filePath, giveStatistics):
     minFile = open("jsgo.min.js", "w")
-    response = responseParser(closureCompilerCall("jsgo.js", "compiled_code"))
+    response = responseParser(closureCompilerCall(filePath, "compiled_code"))
 
     if "compiledCode" not in response or response["compiledCode"] == "":
         errors = responseParser(closureCompilerCall("jsgo.js", "errors"))
@@ -100,10 +100,10 @@ def minify(giveStatistics):
 if __name__ == "__main__":
     if "--help" in sys.argv:
         print "How to run:"
-        print "python minify [--statistics]"
+        print "python minify 'filepath' [--statistics]"
 
     elif "--statistics" in sys.argv:
-        minify(True)
+        minify(sys.argv[1], True)
 
     else:
-        minify(False)
+        minify(sys.argv[1], False)

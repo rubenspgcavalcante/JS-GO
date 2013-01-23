@@ -1,11 +1,3 @@
-/** @license JS-GO Javascript Generic Object
- * License: GPLv3 (GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- *          http://www.gnu.org/licenses/gpl-3.0.html
- *
- * Author:  Rubens Pinheiro Gonçalves Cavalcante
- * Email:   rubenspgcavalcante@gmail.com
- */
-
 /**
  * Generates a object with attributes of especif types.
  * If the user tries to set a value in a non attribute or of a
@@ -314,22 +306,3 @@ GenericObject.types = function(){
     }
     return res;
 }
-/**
- * A collection ready to contain only generic objects childs
- *
- * @author Rubens Pinheiro Gonçalves Cavalcante
- * @email rubenspgcavalcante@gmail.com
- * @since jan 2013
- * @version 0.1b
- *
- */
- 
-/*
- * A collection of GenericObjects childs
- * @constructor
- */
-GenericObjectCollection = function(){
-
-
-
-};
