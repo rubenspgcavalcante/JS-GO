@@ -19,9 +19,32 @@ GenericObject = function(attributes, child){
 
     var that = this;
     var _size = 0;
+
+    // Where the attributes values will be stored
+    var storage = {};
+
+    // Where the attributes types will be stored
     var types = {};
+
+    // Where the not null flags will be stored
     var notNulls = {};
+
+    // Where the use cast flags will be stored
     var useCast = {};
+
+    /**
+    * The object header, wich contains some information of this object
+    * @static
+    */
+    this.header = {};
+
+    Object.defineProperty(this.header, "GenericObject", {
+        value: true,
+        writable: false,
+        enumerable: true,
+        configurable: false
+    });
+
 
     /* -------------------------------- Object methods ------------------------------- */
 

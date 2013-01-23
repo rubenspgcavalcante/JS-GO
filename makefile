@@ -7,3 +7,6 @@ build:
 
 minify:
 	python minify.py jsgo.js --statistics
+
+clean:
+	rm -f jsgo.js jsgo.min.js
