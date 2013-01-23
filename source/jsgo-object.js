@@ -12,10 +12,11 @@
  /*
  * Generic Object
  * @constructor
+ * @param {string} className A string to indentify the class of objects from this type
  * @param {Array<object>} attributes containing {name, type} objects and optionally {notNull, useCast}
  * @param {Object} (Optional) child who will extend
  */
-GenericObject = function(attributes, child){
+GenericObject = function(className, attributes, child){
 
     var that = this;
     var _size = 0;
@@ -57,6 +58,13 @@ GenericObject = function(attributes, child){
 
     Object.defineProperty(this.header, "GenericObject", {
         value: true,
+        writable: false,
+        enumerable: true,
+        configurable: false
+    });
+
+    Object.defineProperty(this.header, "class", {
+        value: className,
         writable: false,
         enumerable: true,
         configurable: false
