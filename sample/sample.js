@@ -5,7 +5,7 @@ GenericObject.newType("cpf", function(value){
 
 // Now we build a class Cliente with some attributes
 var Cliente = function(){
-    return new GenericObject([
+    return new GenericObject("Cliente", [
         {name: "id", type: "number", notNull: true},
         {name: "nome", type: "string", notNull: true},
         {name: "idade", type:"positive", notNull: true},
@@ -16,27 +16,12 @@ var Cliente = function(){
     ]);
 };
 
-// Create a new instace of cliente to apply in the form
-var cliente1 = new Cliente();
-var cliente2 = new Cliente();
-var cliente3 = new Cliente();
-var cliente4 = new Cliente();
-
-cliente1.id.set(1);
-cliente2.id.set(2);
-cliente3.id.set(1);
-cliente4.id.set(4);
-
-var list = new GenericObjectCollection();
-list.add(cliente1);
-list.add(cliente2);
-list.add(cliente3);
-list.add(cliente4);
-
 
 // Initing the validations
 $(document).ready(function(){
     var formPath = "#mainContainer #genericObjectTest";
+    var cliente = new Cliente();
+
     $(formPath).submit(function(){
 
         var valid = true;

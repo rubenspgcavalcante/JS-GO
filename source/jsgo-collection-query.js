@@ -4,7 +4,7 @@ GenericObjectCollection.Query = function(collection){
     this.query = {
         select: null,
         from: null,
-        where: null,
+        where: null
     };
 };
 
@@ -22,7 +22,12 @@ GenericObjectCollection.Query.prototype.Select = function(attributes){
     var selectedAttributes = function(object){
         var result = {};
         for(i in attributes){
-            result[i] = object[i];
+            if(typeof(object[attributes[i]]) != "undefined"){
+                result[attributes[i]] = object[attributes[i]].get();
+            }
+            else{
+                result[attributes[i]] = null;
+            }
         }
 
         return result;
@@ -44,22 +49,38 @@ GenericObjectCollection.Query.prototype.Select = function(attributes){
                 var response = [];
                 var list = that.collection.objects;
                 for (i in list){
-                    if(list[i].header.class == className){
-                        
-                        if(
-                            (filter.operator == "gt" && list[i][filter.attribute] > filter.value) ||
+                    if(list[i].header.className == className){
 
-                            (filter.operator == "mt" && list[i][filter.attribute] < filter.value) ||
+                        switch (filter.operator){
+                            case "eq":
+                                if(list[i][filter.attribute].get() == filter.value){
+                                    response.push(selectedAttributes(list[i]));
+                                }
+                                break;
 
-                            (
-                                filter.operator == "mte" ||
-                                filter.operator == "gte" ||
-                                filter.operator == "eq"
-                            ) &&
+                            case "gte":
+                                if(list[i][filter.attribute].get() >= filter.value){
+                                    response.push(selectedAttributes(list[i]));
+                                }
+                                break;
 
-                            list[i][filter.attribute] == filter.value
-                        ){
-                            response.push(selectedAttributes(list[i]));
+                            case "mte":
+                                if(list[i][filter.attribute].get() <= filter.value){
+                                    response.push(selectedAttributes(list[i]));
+                                }
+                                break;
+
+                            case "gt":
+                                if(list[i][filter.attribute].get() > filter.value){
+                                    response.push(selectedAttributes(list[i]));
+                                }
+                                break;
+
+                            case "mt":
+                                if(list[i][filter.attribute].get() < filter.value){
+                                    response.push(selectedAttributes(list[i]));
+                                }
+                                break;
                         }
                     }
                 }

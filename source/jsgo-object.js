@@ -63,7 +63,7 @@ GenericObject = function(className, attributes, child){
         configurable: false
     });
 
-    Object.defineProperty(this.header, "class", {
+    Object.defineProperty(this.header, "className", {
         value: className,
         writable: false,
         enumerable: true,

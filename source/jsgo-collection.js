@@ -184,7 +184,7 @@ GenericObjectCollection.prototype.prettyPrint = function(){
     var print = "";
     var list = this.toObjects();
     for(i in list){
-        print += "index: " + i + "\n";
+        print += "index: " + i + " Class: " + list[i].header.className + "\n";
         for(j in list[i]){
             print += "\t" + j + ": " + list[i][j] +"\n";
         }
