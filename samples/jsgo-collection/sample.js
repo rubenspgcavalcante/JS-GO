@@ -55,6 +55,8 @@ collection.add(customer1, customer2, customer3, customer4, customer5);
 var query = new GenericObjectCollection.Query(collection);
 var Filter = GenericObjectCollection.Filter;
 
-query = query.Select("id", "name", "email").From("Customer").Where(new Filter("id", "gte", 4).OR("name", "eq", "John"));
+query = query.Delete("id", "name", "email").From("Customer").Where(new Filter("id", "gte", 4).OR("name", "eq", "John"));
 
-console.log(query.run());
+
+query.run();
+console.log(collection.toObjects());
