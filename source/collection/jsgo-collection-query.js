@@ -11,9 +11,10 @@ GenericObjectCollection.Query = function(collection){
     this.lastQuery = null;
     this.query = {
         type: null, //Can be SELECT, UPDATE, DELETE
-        matches: null,
+        selection: null,
         from: null,
-        where: null
+        where: null,
+        updateTo: []
     };
 
     /*
@@ -36,7 +37,7 @@ GenericObjectCollection.Query = function(collection){
                 value: filter.value
             };
 
-            recordWhere.run = function(){
+            var run = function(){
                 if(that.query.type == "SELECT"){
                     var response = [];
                 }
@@ -120,7 +121,10 @@ GenericObjectCollection.Query = function(collection){
                                     break;
 
                                 case "UPDATE":
-                                    //TODO: update method
+                                    var attributes = that.query.selection;
+                                    for(attr in attributes){
+                                        that.collection.objects[i][attributes[attr]].set(that.query.updateTo[attr]);
+                                    }
                                     break;
 
                                 case "DELETE":
@@ -138,6 +142,23 @@ GenericObjectCollection.Query = function(collection){
                 }
                 return response;
             }
+
+            /*
+             The method Update, must not return the object containing the run method.
+             Him must return a method Set and the set return the method run.
+            */
+            if(that.query.type == "UPDATE"){
+                recordWhere.Set = function(){
+                    var recordSet = {};
+                    that.query.updateTo = arguments;
+                    recordSet.run = run;
+
+                    return recordSet;
+                };
+                return recordWhere
+            }
+
+            recordWhere.run = run;
             return recordWhere;
         }
         return recordFrom;

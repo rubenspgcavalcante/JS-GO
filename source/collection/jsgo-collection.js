@@ -197,15 +197,18 @@ GenericObjectCollection.prototype.sort = function(attribute, order){
 /**
  * Prints into console into a pretty format
  */
-GenericObjectCollection.prototype.prettyPrint = function(){
+GenericObjectCollection.prototype.prettyPrint = function(echo){
     var print = "";
     var list = this.toObjects();
     for(i in list){
-        print += "index: " + i + " Class: " + list[i].header.className + "\n";
+        print += "index: " + i + " Class: " + this.objects[i].header.className + "\n";
         for(j in list[i]){
             print += "\t" + j + ": " + list[i][j] +"\n";
         }
         print += "\n\n";
     }
-    console.log(print);
+    if(echo == true){
+        console.log(print);
+    }
+    return print;
 };

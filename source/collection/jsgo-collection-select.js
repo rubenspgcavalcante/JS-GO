@@ -1,14 +1,14 @@
 GenericObjectCollection.Query.prototype.Select = function(attributes){
 
     if(Array.isArray(attributes)){
-        this.query.matches = attributes;
+        this.query.selection = attributes;
     }
 
     else{
         var args = arguments;
-        this.query.matches = [];
+        this.query.selection = [];
         for(i in args){
-            this.query.matches.push(args[i]);
+            this.query.selection.push(args[i]);
         }
     }
 
@@ -21,7 +21,7 @@ GenericObjectCollection.Query.prototype.Select = function(attributes){
 
     this.selectedAttributes = function(object){
         var result = {};
-        var attributes = that.query.matches;
+        var attributes = that.query.selection;
         for(i in attributes){
             if(attributes[i] == "*"){
                 result = object.toObject();

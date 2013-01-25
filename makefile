@@ -8,6 +8,7 @@ build:
 	cat source/collection/jsgo-collection-query.js >> jsgo.js
 	cat source/collection/jsgo-collection-filter.js >> jsgo.js
 	cat source/collection/jsgo-collection-select.js >> jsgo.js
+	cat source/collection/jsgo-collection-update.js >> jsgo.js
 	cat source/collection/jsgo-collection-delete.js >> jsgo.js
 
 minify:

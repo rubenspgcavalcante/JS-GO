@@ -55,8 +55,23 @@ collection.add(customer1, customer2, customer3, customer4, customer5);
 var query = new GenericObjectCollection.Query(collection);
 var Filter = GenericObjectCollection.Filter;
 
-query = query.Delete("id", "name", "email").From("Customer").Where(new Filter("id", "gte", 4).OR("name", "eq", "John"));
 
+document.onreadystatechange = function(){
+    if ('complete' == document.readyState) {
+        document.getElementById("before").innerHTML = collection.prettyPrint();
+        query = query.Select("id", "name", "email").From("Customer").Where(new Filter("id", "gte", 4).OR("name", "eq", "John"));
 
-query.run();
-console.log(collection.toObjects());
+        var result = query.run();
+
+        var html = ""
+        for(i in result){
+            html += "<ul>";
+                html += "<li>"+ result[i].id +"</li>";
+                html += "<li>"+ result[i].name +"</li>";
+                html += "<li>"+ result[i].email +"</li>";
+            html += "</ul><br/>";
+        }
+
+        document.getElementById("after").innerHTML = html;
+    }
+}

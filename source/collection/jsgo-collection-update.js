@@ -1,4 +1,4 @@
-GenericObjectCollection.Query.prototype.Delete = function(attributes){
+GenericObjectCollection.Query.prototype.Update = function(attributes){
     if(Array.isArray(attributes)){
         this.query.selection = attributes;
     }
@@ -12,11 +12,11 @@ GenericObjectCollection.Query.prototype.Delete = function(attributes){
     }
 
     var that = this;
-    var recordDelete = {};
+    var recordUpdate = {};
 
-    this.query.type = "DELETE";
+    this.query.type = "UPDATE";
     //Call the From method of the Query object, look in jsgo-collection-query.js
-    recordDelete.From = this.fromFunc;
+    recordUpdate.From = this.fromFunc;
     
-    return recordDelete
+    return recordUpdate
 };
