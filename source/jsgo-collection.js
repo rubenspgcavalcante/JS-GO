@@ -17,9 +17,26 @@ GenericObjectCollection = function(){
 };
 
 
-GenericObjectCollection.prototype.add = function(object){
-    if(object.header.GenericObject){
-        this.objects.push(object);
+/**
+ * Add a object or objects to the collection.
+ * Accepts n parameters e.g., go.add(obj1, obj2, obj3, ... objN)
+ * where this 'obj' can be uniques GenericObjects or Arrays of GenericObjects
+ *
+ * @param objects Can be a array or a unique object
+ */
+GenericObjectCollection.prototype.add = function(objects){
+    var args = arguments;
+    for(i in args){
+        if(typeof(args[i].length) != "undefined"){
+            for(j in args[i]){
+                if(args[i][j].header.GenericObject){
+                    this.objects.push(args[i][j]);
+                }
+            }
+        }
+        else if(args[i].header.GenericObject){
+            this.objects.push(args[i]);
+        }
     }
 };
 
