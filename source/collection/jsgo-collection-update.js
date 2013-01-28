@@ -14,7 +14,7 @@ GenericObjectCollection.Query.prototype.Update = function(attributes){
     var that = this;
     var recordUpdate = {};
 
-    this.query.type = "UPDATE";
+    this.query.type = JSGO.METHOD.UPDATE;
     //Call the From method of the Query object, look in jsgo-collection-query.js
     recordUpdate.From = this.fromFunc;
     

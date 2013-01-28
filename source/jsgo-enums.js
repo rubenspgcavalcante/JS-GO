@@ -11,10 +11,23 @@ Object.defineProperty(JSGO, "OPERATOR", {
   value: {}
 });
 
+Object.defineProperty(JSGO, "METHOD", {
+  enumerable: true,
+  configurable: false,
+  writable: false,
+  value: {}
+});
+
+Object.defineProperty(JSGO, "ORDER", {
+  enumerable: true,
+  configurable: false,
+  writable: false,
+  value: {}
+});
+
 /*
  * Logic operators used in Filter object
  */
-
     Object.defineProperty(JSGO.OPERATOR, "EQ", {
       enumerable: true,
       configurable: false,
@@ -48,4 +61,46 @@ Object.defineProperty(JSGO, "OPERATOR", {
       configurable: false,
       writable: false,
       value: "mte"
+    });
+
+
+/*
+ * Query methods used into Query Object
+ */
+    Object.defineProperty(JSGO.METHOD, "SELECT", {
+      enumerable: true,
+      configurable: false,
+      writable: false,
+      value: "SELECT"
+    });
+
+    Object.defineProperty(JSGO.METHOD, "UPDATE", {
+      enumerable: true,
+      configurable: false,
+      writable: false,
+      value: "UPDATE"
+    });
+
+    Object.defineProperty(JSGO.METHOD, "DELETE", {
+      enumerable: true,
+      configurable: false,
+      writable: false,
+      value: "DELETE"
+    });
+
+/*
+ * Order type to use in Query object
+ */
+    Object.defineProperty(JSGO.ORDER, "ASC", {
+      enumerable: true,
+      configurable: false,
+      writable: false,
+      value: "asc"
+    });
+
+    Object.defineProperty(JSGO.ORDER, "DESC", {
+      enumerable: true,
+      configurable: false,
+      writable: false,
+      value: "desc"
     });

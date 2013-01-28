@@ -4,7 +4,7 @@ GenericObjectCollection.Query.prototype.Delete = function(attributes){
     var that = this;
     var recordDelete = {};
 
-    this.query.type = "DELETE";
+    this.query.type = JSGO.METHOD.DELETE;
     //Call the From method of the Query object, look in jsgo-collection-query.js
     recordDelete.From = this.fromFunc;
     

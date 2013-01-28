@@ -14,7 +14,8 @@ GenericObjectCollection.Query = function(collection){
         selection: null,
         from: null,
         where: null,
-        updateTo: []
+        updateTo: [],
+        orderby: null
     };
 
     /*
@@ -38,7 +39,7 @@ GenericObjectCollection.Query = function(collection){
             };
 
             var run = function(){
-                if(that.query.type == "SELECT"){
+                if(that.query.type == JSGO.METHOD.SELECT){
                     var response = [];
                 }
 
@@ -60,28 +61,32 @@ GenericObjectCollection.Query = function(collection){
                         //If the object matches the filters do a (SELECT, DELETE, UPDATE)
                         if(filter.process(list[i])){
                             switch(that.query.type){
-                                case "SELECT":
+                                case JSGO.METHOD.SELECT:
                                     response.push(that.selectedAttributes(list[i]));
                                     break;
 
-                                case "UPDATE":
+                                case JSGO.METHOD.UPDATE:
                                     var attributes = that.query.selection;
                                     var flag = that.__whenUpdate(attributes, index);  
                                     response = response ? true : flag
                                     break;
 
-                                case "DELETE":
+                                case JSGO.METHOD.DELETE:
                                     that.collection.objects.splice(cnt, 1);
                                     cnt--;
                                     response = true;
                                     break;
 
                                 default:
-                                    throw Error("Query type doesn't exist. Use (SELECT, UPDATE, DELETE)");
+                                    throw Error("Query type doesn't exist. Use the JSGO.METHOD enum");
                             }
                         }
                         cnt++;
                     }
+                }
+
+                if(that.orderby != null){
+                    that.__whenOrderBy(response, that.orderby.attribute, that.orderby.order);
                 }
                 return response;
             }
@@ -90,7 +95,7 @@ GenericObjectCollection.Query = function(collection){
              The method Update, must not return the object containing the run method.
              Him must return a method Set and the set return the method run.
             */
-            if(that.query.type == "UPDATE"){
+            if(that.query.type == JSGO.METHOD.UPDATE){
                 recordWhere.Set = function(){
                     var recordSet = {};
                     that.query.updateTo = arguments;
@@ -99,6 +104,19 @@ GenericObjectCollection.Query = function(collection){
                     return recordSet;
                 };
                 return recordWhere
+            }
+
+            /*
+             A SELECT contains the option of order by too
+            */
+            if(that.query.type == JSGO.METHOD.SELECT){
+                recordWhere.OrderBy = function(attribute, order){
+                    var recordOrderBy = {};
+                    that.orderby = {attribute: attribute, order: order};
+                    recordOrderBy.run = run;
+
+                    return recordOrderBy;
+                }
             }
 
             recordWhere.run = run;
