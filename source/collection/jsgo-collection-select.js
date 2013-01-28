@@ -46,20 +46,26 @@ GenericObjectCollection.Query.prototype.Select = function(attributes){
 /**
  * Order a array from a SELECT result
  *
+ * @private
  * @param {Array<Object>} values The values to order
  * @param {string} attribute The attribute to use as base
  * @param {string} order The order, use the enum JSGO.ORDER
  */
-GenericObjectCollection.Query.prototype.__whenOrderBy = function(values, attribute, order){
-    var attribute = attribute;
-    if(typeof(order) == "undefined" || order != JSGO.ORDER.ASC && order != JSGO.ORDER.DESC){
-        throw Error("Unrecognized order type. Use JSGO.ORDER enum");
+Object.defineProperty(GenericObjectCollection.Query.prototype, "__whenOrderBy", {
+    enumerable: false,
+    configurable: false,
+    writable: false,
+    value: function(values, attribute, order){
+        var attribute = attribute;
+        if(typeof(order) == "undefined" || order != JSGO.ORDER.ASC && order != JSGO.ORDER.DESC){
+            throw Error("Unrecognized order type. Use JSGO.ORDER enum");
+        }
+
+        values.sort(function(a, b){
+            a = a[attribute];
+            b = b[attribute]    ;
+
+            return order == JSGO.ORDER.ASC ? a > b : a < b;
+        });
     }
-
-    values.sort(function(a, b){
-        a = a[attribute];
-        b = b[attribute];
-
-        return order == JSGO.ORDER.ASC ? a > b : a < b;
-    });
-};
+});

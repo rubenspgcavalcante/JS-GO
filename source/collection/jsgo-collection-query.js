@@ -92,7 +92,7 @@ GenericObjectCollection.Query = function(collection){
             }
 
             /*
-             The method Update, must not return the object containing the run method.
+             The method UPDATE, must not return the object containing the run method.
              Him must return a method Set and the set return the method run.
             */
             if(that.query.type == JSGO.METHOD.UPDATE){
