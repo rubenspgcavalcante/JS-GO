@@ -21,6 +21,14 @@ GenericObjectCollection.Query.prototype.Update = function(attributes){
     return recordUpdate
 };
 
+/**
+ * What to do when UPDATE is called
+ *
+ * @private
+ * @param {Array<string>} attributes The attributes update
+ * @param {number} index The index to change
+ * @return {boolean} If any attribute was really updated
+ */
 Object.defineProperty(GenericObjectCollection.Query.prototype, "__whenUpdate", {
     enumerable: false,
     configurable: false,
