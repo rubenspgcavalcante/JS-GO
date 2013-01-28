@@ -64,7 +64,7 @@ GenericObject.typesLibrary = {
             return typeof(value) == "number" && value >= 0;
         },
         cast: function(value){
-            return Number(value);
+            return Math.abs(Number(value));
         }
     },
 
@@ -73,7 +73,8 @@ GenericObject.typesLibrary = {
             return typeof(value) == "number" && value <= 0;
         },
         cast: function(value){
-            return Number(value);
+            var number = Number(value)
+            return (number <= 0)? number : -number;
         }
     },
 

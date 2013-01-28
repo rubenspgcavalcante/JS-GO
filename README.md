@@ -7,6 +7,9 @@ A generic object to help the creation of objects wich some attributes can't be t
 This give some basic objects, but can be extended with extra types defined by the programer.
 Comes with some default methods (set, get, validate and cast) to each attribute created.
 
+##Wiki
+See the complete API in [JS-GO Wiki](https://github.com/rubenspgcavalcante/JS-GO/wiki)
+
 ##How to use it?
 
 First, how to create a new instace with this object. Bellow we will use the customer class as 
