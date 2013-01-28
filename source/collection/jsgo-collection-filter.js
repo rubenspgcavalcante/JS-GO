@@ -42,7 +42,7 @@ GenericObjectCollection.Filter.prototype.OR = function(attribute, operator, valu
  * Method to carry to others filters using the AND logic
  * 
  * @param {string} attribute Atribute to look and compare
- * @param {string} operator The operator used
+ * @param {string} operator The operator used. Use the enum JSGO.OPERATOR
  * @param value The value to search and compare using the operator
  * @return {Object} Filter
  */
@@ -63,4 +63,61 @@ GenericObjectCollection.Filter.prototype.toRoot = function(){
         root = root.parent;
     }
     return root;
+};
+
+/*
+ * Recursive method to process the filter and the child filters 
+ * (OR or AND) returning if the value pass or not.
+ *
+ * @param {Object} genericObject The object used to compare based on filter
+ * @return {boolean} If the value pass on the test filters
+ */
+GenericObjectCollection.Filter.prototype.process = function(genericObject){
+    var flag = false;
+    var filter = this;
+    switch (filter.operator){
+        case JSGO.OPERATOR.EQ:
+            if(genericObject[filter.attribute].get() == filter.value){
+                flag = true;
+            }
+            break;
+
+        case JSGO.OPERATOR.GTE:
+            if(genericObject[filter.attribute].get() >= filter.value){
+                flag = true;
+            }
+            break;
+
+        case JSGO.OPERATOR.MTE:
+            if(genericObject[filter.attribute].get() <= filter.value){
+                flag = true;
+            }
+            break;
+
+        case JSGO.OPERATOR.GT:
+            if(genericObject[filter.attribute].get() > filter.value){
+                flag = true;
+            }
+            break;
+
+        case JSGO.OPERATOR.MT:
+            if(genericObject[filter.attribute].get() < filter.value){
+                flag = true;
+            }
+            break;
+
+        default:
+            throw Error("Operator "+filter.operator+" doesn't exists");
+    }
+
+    if(filter.or != null){
+        return flag || filter.or.process(genericObject);
+    }
+
+    else if(filter.and != null){
+        return flag && filter.and.process(genericObject);
+    }
+
+    //End of recursion
+    return flag;
 };

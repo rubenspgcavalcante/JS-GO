@@ -20,3 +20,27 @@ GenericObjectCollection.Query.prototype.Update = function(attributes){
     
     return recordUpdate
 };
+
+GenericObjectCollection.Query.prototype.__whenUpdate = function(attributes, index){
+    var that = this;
+    var flag = false;
+    for(attr in attributes){
+        try{
+            that.collection.objects[i][attributes[attr]].set(that.query.updateTo[attr]);
+            flag = true;
+        }
+        catch (e){
+            var value = that.query.updateTo[attr];
+            var type = collection.objects[i][attributes[attr]].info().type;
+            var info = that.collection.objects[i]
+
+            var warn = "On UPDATE: Attribute " + attributes[attr] + " doesn't accepts " + value + " as a valid value\n";
+            warn += "\tCollection index: " + i + "\n";
+            warn += "\tAttribute type: " + type + "\n";
+            warn += "\tObject:\n";
+
+            console.warn(warn, info);
+        }
+    }
+    return flag
+};
