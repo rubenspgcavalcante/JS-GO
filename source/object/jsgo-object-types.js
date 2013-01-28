@@ -123,7 +123,7 @@ GenericObject.newType = function(type, validation, cast){
 /**
  * Return a list of all types registered
  *
- * @return {Object} return a list of types
+ * @return {Array} return a list of types
  */
 GenericObject.types = function(){
     var res = [];

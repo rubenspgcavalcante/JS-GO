@@ -16,38 +16,22 @@ var Customer = function(){
 };
 
 var customer1 = new Customer();
-customer1.id.set(1);
-customer1.name.set("John");
-customer1.age.set(21);
-customer1.email.set("john@email.com");
-
+customer1.batchSet({id: 1, name: "John", age:21, email: "john@email.com"});
 
 var customer2 = new Customer();
-customer2.id.set(2);
-customer2.name.set("Jack");
-customer2.age.set(26);
-customer2.email.set("jack@email.com");
+customer2.batchSet({id: 2, name: "Jack", age:18, email: "jack@email.com"});
 
 
 var customer3 = new Customer();
-customer3.id.set(3);
-customer3.name.set("Billy");
-customer3.age.set(46);
-customer3.email.set("billy@email.com");
+customer3.batchSet({id: 3, name: "Billy", age:46, email: "billy@email.com"});
 
 
 var customer4 = new Customer();
-customer4.id.set(4);
-customer4.name.set("Joe");
-customer4.age.set(67);
-customer4.email.set("joe@email.com");
+customer4.batchSet({id: 4, name: "Joe", age:64, email: "joe@email.com"});
 
 
 var customer5 = new Customer();
-customer5.id.set(5);
-customer5.name.set("Armstrong");
-customer5.age.set(34);
-customer5.email.set("armstrong@email.com");
+customer5.batchSet({id: 5, name: "Armstrong", age:34, email: "armstrong@email.com"});
 
 var collection = new GenericObjectCollection();
 collection.add(customer1, customer2, customer3, customer4, customer5);

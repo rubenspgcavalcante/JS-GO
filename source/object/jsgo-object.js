@@ -233,3 +233,14 @@ GenericObject.prototype.toObject = function(){
 
     return simpleObject;
 };
+
+/**
+ * Sets the values passed
+ *
+ * @param {Object} values Object in the format {key: value}
+ */
+GenericObject.prototype.batchSet = function(values){
+    for(i in values){
+        this[i].set(values[i]);
+    }
+};
