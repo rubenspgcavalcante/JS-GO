@@ -123,7 +123,21 @@ GenericObjectCollection.Query = function(collection){
                                 case "UPDATE":
                                     var attributes = that.query.selection;
                                     for(attr in attributes){
-                                        that.collection.objects[i][attributes[attr]].set(that.query.updateTo[attr]);
+                                        try{
+                                            that.collection.objects[i][attributes[attr]].set(that.query.updateTo[attr]);
+                                        }
+                                        catch (e){
+                                            var value = that.query.updateTo[attr];
+                                            var type = collection.objects[i][attributes[attr]].info().type;
+                                            var info = that.collection.objects[i]
+
+                                            var warn = "UPDATE: Attribute " + attributes[attr] + " doesn't accepts " + value + " as a valid value\n";
+                                            warn += "\tCollection index: " + i + "\n";
+                                            warn += "\tAttribute type: " + type + "\n";
+                                            warn += "\tObject:\n";
+
+                                            console.warn(warn, info);
+                                        }
                                     }
                                     break;
 

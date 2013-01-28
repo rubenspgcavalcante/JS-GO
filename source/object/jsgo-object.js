@@ -175,7 +175,7 @@ GenericObject = function(className, attributes, child){
          * @return {Object}
          */
         this[attr].info = function(){
-            return {type: types[attr], notNull: notNulls[attr], useCast: useCast[attr]};
+            return {type: types[this.name], notNull: notNulls[this.name], useCast: useCast[this.name]};
         }
     }
 
