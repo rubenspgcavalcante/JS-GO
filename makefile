@@ -12,7 +12,7 @@ build:
 	cat source/collection/jsgo-collection-delete.js >> jsgo.js
 
 minify:
-	python minify.py jsgo.js --statistics
+	python minify.py jsgo.js --config config.json --statistics
 
 clean:
 	rm -f jsgo.js jsgo.min.js

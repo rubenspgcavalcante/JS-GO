@@ -2,6 +2,7 @@
  * License: GPLv3 (GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
  *          http://www.gnu.org/licenses/gpl-3.0.html
  *
+ * Version: %version%
  * Author:  Rubens Pinheiro Gonçalves Cavalcante
  * Email:   rubenspgcavalcante@gmail.com
  */

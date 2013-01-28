@@ -6,7 +6,6 @@
  * @author Rubens Pinheiro Gonçalves Cavalcante
  * @email rubenspgcavalcante@gmail.com
  * @since jan 2013
- * @version 0.1b
  */
 
  /*

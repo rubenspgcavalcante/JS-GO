@@ -12,6 +12,7 @@ import urllib
 import httplib
 import json
 import sys
+from getopt import getopt
 
 def loadFile(filePath):
     codeFile = open(filePath, "r")
@@ -81,8 +82,13 @@ def closureCompilerCall(filePath, outputInfo):
     return response.read()
 
 
-def minify(filePath, giveStatistics):
-    minFile = open("jsgo.min.js", "w")
+def minify(filePath, config, giveStatistics):
+    if config is not None:
+        minFile = open(config["filename"]+"-"+str(config["version"])+".min.js", "w")
+    
+    else:
+        minFile = open("jsgo.min.js", "w")
+    
     response = responseParser(closureCompilerCall(filePath, "compiled_code"))
 
     if "compiledCode" not in response or response["compiledCode"] == "":
@@ -94,16 +100,50 @@ def minify(filePath, giveStatistics):
             statistics = errors = responseParser(closureCompilerCall("jsgo.js", "statistics"))
             showStatistics(statistics)
 
+        if config is not None:
+            response["compiledCode"] = response["compiledCode"].replace("%version%", str(config["version"]))
+
         minFile.write(response["compiledCode"].encode("utf-8"))
+
+def help():
+    print "How to run:"
+    print "python minify 'filepath' [options]"
+    print "Options:"
+    print "-s or --statistics Show the minify statistics"
+    print "-c or --config (file) Use a config file in json format"
+    print "-h or --help Show this help"
 
 
 if __name__ == "__main__":
-    if "--help" in sys.argv:
-        print "How to run:"
-        print "python minify 'filepath' [--statistics]"
 
-    elif "--statistics" in sys.argv:
-        minify(sys.argv[1], True)
+    useStastistics = False
+    config = None
 
-    else:
-        minify(sys.argv[1], False)
+    try:
+        opts, args = getopt(sys.argv[2:], "x", ["help", "statistics", "config="])
+
+    except:
+        help()
+        sys.exit()
+
+    for opt, arg in opts:
+        if opt in ("-h", "--help"):
+            help()
+            sys.exit()
+
+        elif opt in ("-s", "--statistics"):
+            useStastistics = True
+
+        elif opt in ("-c", "--config"):
+            jsonFile = open(arg)
+
+            try:
+                config = json.load(jsonFile)
+
+            except ValueError:
+                print "File isn't in a valid json format"
+                sys.exit()
+
+            jsonFile.close()
+
+    minify(sys.argv[1], config, useStastistics)
