@@ -1,16 +1,6 @@
 GenericObjectCollection.Query.prototype.Delete = function(attributes){
-    if(Array.isArray(attributes)){
-        this.query.selection = attributes;
-    }
-
-    else{
-        var args = arguments;
-        this.query.selection = [];
-        for(i in args){
-            this.query.selection.push(args[i]);
-        }
-    }
-
+    this.query.selection = [];
+    
     var that = this;
     var recordDelete = {};
 
