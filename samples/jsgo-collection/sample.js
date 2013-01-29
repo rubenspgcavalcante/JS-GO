@@ -43,7 +43,7 @@ var Filter = GenericObjectCollection.Filter;
 document.onreadystatechange = function(){
     if ('complete' == document.readyState) {
         document.getElementById("before").innerHTML = collection.prettyPrint();
-        query = query.Select("id", "name", "email").From("Customer").Where(new Filter("id", "gte", 4).OR("name", "eq", "John"));
+        query = query.Select("id", "name", "email").From("Customer").Where(new Filter("email", JSGO.OPERATOR.LIKE, /(@email.com)$/));
 
         var result = query.run();
 

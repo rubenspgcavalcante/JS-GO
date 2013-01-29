@@ -63,6 +63,13 @@ Object.defineProperty(JSGO, "ORDER", {
       value: "mte"
     });
 
+    Object.defineProperty(JSGO.OPERATOR, "LIKE", {
+      enumerable: true,
+      configurable: false,
+      writable: false,
+      value: "like"
+    });
+
 
 /*
  * Query methods used into Query Object

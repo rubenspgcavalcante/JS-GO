@@ -4,6 +4,7 @@ OBJECTDIR=${SOURCEDIR}object/
 COLLECTIONDIR=${SOURCEDIR}collection/
 
 .PHONY: build
+.PHONY: tests
 
 MODULES = ${SOURCEDIR}license-header.txt\
           ${SOURCEDIR}jsgo-enums.js\
@@ -28,3 +29,6 @@ minify:
 
 clean:
 	rm -f $(BUILDPATH) jsgo.min.js
+
+tests:
+	node tests/peformance/run.js

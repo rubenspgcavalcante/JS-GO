@@ -106,6 +106,14 @@ GenericObjectCollection.Filter.prototype.process = function(genericObject){
             }
             break;
 
+        case JSGO.OPERATOR.LIKE:
+            if(filter.value.constructor.name == "RegExp"){
+                if(filter.value.test(genericObject[filter.attribute].get())){
+                    flag = true;
+                }
+            }
+            break;
+
         default:
             throw Error("Operator "+filter.operator+" doesn't exists");
     }
