@@ -67,7 +67,7 @@ GenericObjectCollection.Query = function(collection){
 
                                 case JSGO.METHOD.UPDATE:
                                     var attributes = that.query.selection;
-                                    var flag = that.__whenUpdate(attributes, index);  
+                                    var flag = that.__whenUpdate(attributes, i);  
                                     response = response ? true : flag
                                     break;
 

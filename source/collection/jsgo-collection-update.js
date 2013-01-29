@@ -38,16 +38,16 @@ Object.defineProperty(GenericObjectCollection.Query.prototype, "__whenUpdate", {
         var flag = false;
         for(attr in attributes){
             try{
-                that.collection.objects[i][attributes[attr]].set(that.query.updateTo[attr]);
+                that.collection.objects[index][attributes[attr]].set(that.query.updateTo[attr]);
                 flag = true;
             }
             catch (e){
                 var value = that.query.updateTo[attr];
-                var type = collection.objects[i][attributes[attr]].info().type;
-                var info = that.collection.objects[i]
+                var type = collection.objects[index][attributes[attr]].info().type;
+                var info = that.collection.objects[index]
 
                 var warn = "On UPDATE: Attribute " + attributes[attr] + " doesn't accepts " + value + " as a valid value\n";
-                warn += "\tCollection index: " + i + "\n";
+                warn += "\tCollection index: " + index + "\n";
                 warn += "\tAttribute type: " + type + "\n";
                 warn += "\tObject:\n";
 

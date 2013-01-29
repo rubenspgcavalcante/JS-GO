@@ -84,7 +84,7 @@ def closureCompilerCall(filePath, outputInfo):
 
 def minify(filePath, config, giveStatistics):
     if config is not None:
-        minFile = open(config["filename"]+"-"+str(config["version"])+".min.js", "w")
+        minFile = open(config["path"]+config["filename"]+"-"+str(config["version"])+".min.js", "w")
     
     else:
         minFile = open("jsgo.min.js", "w")
@@ -97,7 +97,7 @@ def minify(filePath, config, giveStatistics):
     
     else:
         if giveStatistics == True:
-            statistics = errors = responseParser(closureCompilerCall("jsgo.js", "statistics"))
+            statistics = responseParser(closureCompilerCall(filePath, "statistics"))
             showStatistics(statistics)
 
         if config is not None:
