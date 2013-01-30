@@ -2,11 +2,12 @@ JS-GO (Javascript Generic Objects)
 ===========
 
 ##About
-***JS-GO*** is a mini framework to have a better control of objects, build the models 'classes' and apply they some business rules. Comes with a lot of types to use in the objects attributes as string, number, positive, negative, email and others. And give you the power to create your custom types too! 
+***JS-GO*** is a mini framework to have a better control of objects, build the models 'classes' and apply they some business rules.  
+Comes with a lot of types to use in the objects attributes, like string, number, positive, negative, email and others. And give you the power to create your custom types too!  
 Create collections of this objects and use querries and avoid doing extra requests only to filter some results in a collection that you already have in  hands, ... or browser js memory :)
 
 ###The GenericObject
-A generic object to help the creation of objects wich some attributes must not be so dinamic.
+A generic object to help the creation of objects where some attributes must not to be so dinamic.
 This give some basic objects, but can be extended with extra types defined by the programer.
 Comes with some default methods (set, get, validate, cast and info) to each attribute created.
 
