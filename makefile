@@ -19,7 +19,7 @@ MODULES = ${SOURCEDIR}license-header.txt\
 
 all: build minify
 
-build: ${BUILDPATH}
+build: clean ${BUILDPATH}
 
 ${BUILDPATH}: ${MODULES}
 	cat >> $@ $^

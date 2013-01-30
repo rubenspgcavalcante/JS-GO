@@ -1,6 +1,6 @@
 /**
  * Contains enumerations used into the jsgo
- * @enum
+ * @enum {Object}
  */
 JSGO = new Object();
 
