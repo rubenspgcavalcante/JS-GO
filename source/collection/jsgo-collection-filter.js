@@ -16,8 +16,9 @@ GenericObjectCollection.Filter = function(attribute, operator, value, _parent){
     this.value = value;
 
     this.parent = typeof(_parent) == "undefined" ? null : _parent;
-    this.or = null
+    this.or = null;
     this.and = null;
+    this.xor = null;
 
     return this;
 
@@ -34,6 +35,8 @@ GenericObjectCollection.Filter = function(attribute, operator, value, _parent){
  */
 GenericObjectCollection.Filter.prototype.OR = function(attribute, operator, value){
     this.or = new GenericObjectCollection.Filter(attribute, operator, value, this);
+    this.and = null;
+    this.xor = null;
     return this.or;
 };
 
@@ -48,6 +51,23 @@ GenericObjectCollection.Filter.prototype.OR = function(attribute, operator, valu
  */
 GenericObjectCollection.Filter.prototype.AND = function(attribute, operator, value){
     this.and = new GenericObjectCollection.Filter(attribute, operator, value, this);
+    this.or = null;
+    this.xor = null;
+    return this.and;
+};
+
+/**
+ * Method to carry to others filters using the XOR logic
+ * 
+ * @param {string} attribute Atribute to look and compare
+ * @param {string} operator The operator used. Use the enum JSGO.OPERATOR
+ * @param value The value to search and compare using the operator
+ * @return {Object} Filter
+ */
+GenericObjectCollection.Filter.prototype.XOR = function(attribute, operator, value){
+    this.xor = new GenericObjectCollection.Filter(attribute, operator, value, this);
+    this.and = null;
+    this.or = null;
     return this.and;
 };
 
@@ -118,12 +138,22 @@ GenericObjectCollection.Filter.prototype.process = function(genericObject){
             throw Error("Operator "+filter.operator+" doesn't exists");
     }
 
+    //Check if only one filter is used
+    if( (filter.or != null) + (filter.and != null) + (filter.xor != null) > 1){
+        throw Error("Filter using more than one logic conector.");
+    }
+
     if(filter.or != null){
         return flag || filter.or.process(genericObject);
     }
 
     else if(filter.and != null){
         return flag && filter.and.process(genericObject);
+    }
+
+    else if(filter.xor != null){
+        var secflag = filter.xor.process(genericObject);
+        return (flag && !secflag) || (!flag && secflag);
     }
 
     //End of recursion

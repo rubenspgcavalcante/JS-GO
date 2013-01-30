@@ -80,4 +80,4 @@ perf.test('Testing speed of a SELECT into a collection of size 1000', function()
 
     query.run();
 
-}, 100);
+}, 10);

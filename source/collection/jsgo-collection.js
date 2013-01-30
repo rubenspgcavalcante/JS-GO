@@ -182,14 +182,15 @@ GenericObjectCollection.prototype.toObjects = function(){
  * @param {string} order Define if ascending sort. Default "asc"
  */
 GenericObjectCollection.prototype.sort = function(attribute, order){
-    if(typeof(order) == "undefined" || order != "desc"){
-        order = "asc";
+    if(typeof(order) == "undefined" || order != JSGO.ORDER.ASC && order != JSGO.ORDER.DESC){
+        throw Error("Order type unrecognized. Use JSGO.ORDER enumeration.");
     }
+
     this.objects.sort(function(a, b){
         a = a[attribute].get();
         b = b[attribute].get();
 
-        return order == "asc" ? a > b : a < b;
+        return order == JSGO.ORDER.ASC ? a > b : a < b;
     });
 };
 
