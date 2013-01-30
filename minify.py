@@ -92,7 +92,7 @@ def minify(filePath, config, giveStatistics):
     response = responseParser(closureCompilerCall(filePath, "compiled_code"))
 
     if "compiledCode" not in response or response["compiledCode"] == "":
-        errors = responseParser(closureCompilerCall("jsgo.js", "errors"))
+        errors = responseParser(closureCompilerCall(filePath, "errors"))
         showErrors(errors)
     
     else:

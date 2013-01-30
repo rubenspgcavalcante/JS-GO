@@ -31,4 +31,4 @@ clean:
 	rm -f $(BUILDPATH) jsgo.min.js
 
 tests:
-	nodejs tests/peformance/run.js
+	node tests/peformance/run.js

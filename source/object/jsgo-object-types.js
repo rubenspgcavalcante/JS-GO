@@ -28,12 +28,21 @@ GenericObject.typesLibrary = {
     },
 
     number: {
-        //Can be used as float to
+        //Can be used as float too
         validate: function(value){
             return typeof(value) == "number";
         },
         cast: function(value){
             return Number(value);
+        }
+    },
+
+    boolean: {
+        validate: function(value){
+            return typeof(value) == "boolean";
+        },
+        cast: function(value){
+            return Boolean(value);
         }
     },
 
@@ -46,6 +55,12 @@ GenericObject.typesLibrary = {
     object: {
         validate: function(value){
             return typeof(value) == "object";
+        }
+    },
+
+    array: {
+        validate: function(value){
+            return typeof(value) == "object" && value.constructor.name == "Array";
         }
     },
 
@@ -78,6 +93,33 @@ GenericObject.typesLibrary = {
         }
     },
 
+    date: {
+        validate: function(value){
+            return typeof(value) == "object" && value.constructor.name == "Date";
+        }
+    },
+
+    year: {
+        validate: function(value){
+            return typeof(value) == "number" && /^[0-9]{4}$/.test(value);
+        },
+        cast: function(value){
+            if(typeof(value) == "string"){
+                var value = Number(value);
+            }
+            else if(typeof(value) == "object" && value.constructor.name == "Date"){
+                value = value.getFullYear();
+            }
+
+            if(!this.validate(value)){
+                throw GenericObject.typesLibrary.Error.ofCast(value, "year");
+            }
+            else{
+                return value;
+            }
+        }
+    },
+
     email:{
         validate: function(value){
             return /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(value);
@@ -88,6 +130,15 @@ GenericObject.typesLibrary = {
         validate: function(value){
             return /^(\+[0-9]{2})?[0-9]{3}[0-9]*$/.test(value);
         }
+    }
+};
+
+/**
+ * Have the default errors messages to the types
+ */
+GenericObject.typesLibrary.Error = {
+    ofCast: function(value, type){
+        return Error("The value "+value+" can't be casted to a " + type);
     }
 };
 
