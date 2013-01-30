@@ -29,6 +29,9 @@ GenericObject = function(className, attributes, child){
     // Where the use cast flags will be stored
     var useCast = {};
 
+    // Where the max size values will be stored
+    var maxSize = {};
+
     // -------------------------- Building Header -------------------------//
     /**
     * The object header, wich contains some information of this object
@@ -87,10 +90,11 @@ GenericObject = function(className, attributes, child){
         this[attr] = {name:attr, value: null};
         _size++;
 
-        types[attr] = (attributes[i].type == undefined) ? "undefined" : attributes[i].type;
-        notNulls[attr] = (attributes[i].notNull == true)? true : false;
-        useCast[attr] = (attributes[i].useCast == true)? true : false;
-
+        types[attr]     = (attributes[i].type == undefined) ? "undefined" : attributes[i].type;
+        maxSize[attr]   = (typeof(attributes[i].maxSize) == "number") ? attributes[i].maxSize : null;
+        notNulls[attr]  = (attributes[i].notNull == true) ? true : false;
+        useCast[attr]   = (attributes[i].useCast == true) ? true : false;
+        
         /**
          * Validates the value passed based on the type of the object
          *
@@ -107,6 +111,12 @@ GenericObject = function(className, attributes, child){
             if(value == null || value == ""){
                 if(notNulls[name]){
                     return {valid: false, error: TypeError(name +" can't be null")};
+                }
+            }
+
+            if(typeof(value.length) != "undefined" && maxSize[name] != null){
+                if(value.length > maxSize[name]){
+                    return {valid: false, error: TypeError(name +" overflowed maximun size of " + maxSize[name])};
                 }
             }
 

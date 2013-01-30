@@ -1,3 +1,2 @@
 Todo list:
  - query in inner attributes of a attribute object
- - attribute option size

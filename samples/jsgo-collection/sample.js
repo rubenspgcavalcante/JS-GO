@@ -11,7 +11,8 @@ var Customer = function(){
         {name: "age", type:"positive", notNull: true},
         {name: "email", type:"email", notNull: true},
         {name: "cpf", type:"cpf"},
-        {name: "phone", type: "phone"}
+        {name: "phone", type: "phone"},
+        {name: "test", type:"string", maxSize: 5}
     ]);
 };
 
