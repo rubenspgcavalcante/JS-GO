@@ -15,7 +15,7 @@
  * @param {Array<object>} attributes containing {name, type} objects and optionally {notNull, useCast}
  * @param {Object} (Optional) child who will extend
  */
-GenericObject = function(className, attributes, child){
+GenericObject = function GenericObject(className, attributes, child){
 
     var that = this;
     var _size = 0;
@@ -41,7 +41,7 @@ GenericObject = function(className, attributes, child){
 
     var format = {};
     for(i in attributes){
-        var name = attributes[i].name.replace(/\ /g, "_");
+        var name = attributes[i].name.replace(/\ |\./g, "_");
 
         format[name] = {
             type: attributes[i].type,
@@ -86,7 +86,7 @@ GenericObject = function(className, attributes, child){
 
     /* ------------------------------ attribute methods ------------------------------ */
     for(i in attributes){
-        var attr = attributes[i].name.replace(/\ /g, "_");
+        var attr = attributes[i].name.replace(/\ |\./g, "_");
         this[attr] = {name:attr, value: null};
         _size++;
 
@@ -97,16 +97,15 @@ GenericObject = function(className, attributes, child){
         
         /**
          * Validates the value passed based on the type of the object
+         * Note if you're using directly, the value will not be casted, if you want
+         * to test if a value it's ok to a attribute which uses cast, first cast this
+         * using the 'cast' method and then pass to the validate
          *
          * @param Any value to validade
          */
         this[attr].validate = function(value){
             var name = this.name;
             var type = GenericObject.typesLibrary[types[name]];
-
-            if(useCast[attr]){
-                value = that[name].cast(value);
-            }
 
             if(value == null || value == ""){
                 if(notNulls[name]){
@@ -134,14 +133,15 @@ GenericObject = function(className, attributes, child){
          * Default casting to a value passed
          *
          * @param value The value to cast
+         * @param options Any other options depending of the type
          * @return The value in the correct format
          */
-        this[attr].cast = function(value){
+        this[attr].cast = function(value, options){
             var name = this.name;
             var type = GenericObject.typesLibrary[types[name]];
 
             if(typeof(type.cast) != "undefined"){
-                return type.cast(value);
+                return type.cast(value, options);
             }
 
             else{
@@ -154,11 +154,12 @@ GenericObject = function(className, attributes, child){
          * Default setter to attr key of the object
          *
          * @param Value based on the type of this atribute to set
+         * @param Options to pass to caster
          */
-        this[attr].set = function(value){
+        this[attr].set = function(value, options){
 
             if(useCast[attr]){
-                value = this.cast(value);            
+                value = this.cast(value, options);            
             }
 
             var validation = this.validate(value);
@@ -201,7 +202,6 @@ GenericObject = function(className, attributes, child){
     return this;
    
 };
-
 
 /**
  * Returns the attributes in a simple object

@@ -12,7 +12,6 @@ var Customer = function(){
         {name: "email", type:"email", notNull: true},
         {name: "cpf", type:"cpf"},
         {name: "phone", type: "phone"},
-        {name: "test", type:"string", maxSize: 5}
     ]);
 };
 

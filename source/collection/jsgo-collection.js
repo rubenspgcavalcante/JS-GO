@@ -4,7 +4,6 @@
  * @author Rubens Pinheiro Gonçalves Cavalcante
  * @email rubenspgcavalcante@gmail.com
  * @since jan 2013
- * @version 0.1b
  *
  */
  
@@ -29,12 +28,12 @@ GenericObjectCollection.prototype.add = function(objects){
     for(i in args){
         if(typeof(args[i].length) != "undefined"){
             for(j in args[i]){
-                if(args[i][j].header.GenericObject){
+                if(args[i][j] instanceof GenericObject){
                     this.objects.push(args[i][j]);
                 }
             }
         }
-        else if(args[i].header.GenericObject){
+        else if(args[i] instanceof GenericObject){
             this.objects.push(args[i]);
         }
     }

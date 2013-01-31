@@ -37,7 +37,7 @@ GenericObject.typesLibrary = {
         }
     },
 
-    boolean: {
+    'boolean': {
         validate: function(value){
             return typeof(value) == "boolean";
         },
@@ -61,6 +61,26 @@ GenericObject.typesLibrary = {
     array: {
         validate: function(value){
             return typeof(value) == "object" && value.constructor.name == "Array";
+        }
+    },
+
+    genericobject: {
+        validate: function(value){
+            return value instanceof GenericObject;
+        },
+        cast: function(value, _class){
+            //The class is the constructor of the object to convert to
+            if(typeof(value) == "object" && value.constructor.name == "Object"){
+                if(typeof(_class) == "undefined"){
+                    throw Error("Must pass a constructor to cast the object to a genericobject");
+                }
+                else if(_class() instanceof GenericObject){
+                    var obj = new _class();
+                    obj.batchSet(value);
+                    return obj;
+                }
+            }
+            throw GenericObject.typesLibrary.Error.ofCast(value, "genericobject");
         }
     },
 
