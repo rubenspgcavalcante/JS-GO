@@ -21,14 +21,11 @@ customer1.batchSet({id: 1, name: "John", age:21, email: "john@email.com"});
 var customer2 = new Customer();
 customer2.batchSet({id: 2, name: "Jack", age:18, email: "jack@email.com"});
 
-
 var customer3 = new Customer();
 customer3.batchSet({id: 3, name: "Billy", age:46, email: "billy@email.com"});
 
-
 var customer4 = new Customer();
 customer4.batchSet({id: 4, name: "Joe", age:64, email: "joe@email.com"});
-
 
 var customer5 = new Customer();
 customer5.batchSet({id: 5, name: "Armstrong", age:34, email: "armstrong@email.com"});

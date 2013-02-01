@@ -14,8 +14,8 @@ GenericObjectCollection.Query.prototype.Select = function(attributes){
 
     var that = this;
     var recordSelect = {};
-
     this.query.type = JSGO.METHOD.SELECT;
+
     //Call the From method of the Query object, look in jsgo-collection-query.js
     recordSelect.From = this.fromFunc;
 
@@ -29,7 +29,12 @@ GenericObjectCollection.Query.prototype.Select = function(attributes){
             }
 
             if(typeof(attributes[i]) != "undefined"){
-                result[attributes[i]] = object[attributes[i]].get();
+                if(attributes[i].indexOf(".") != -1){
+                    result[attributes[i]] = GenericObjectCollection.Query.deepSearch(attributes[i], object);
+                }
+                else{
+                    result[attributes[i]] = object[attributes[i]].get();
+                }
             }
 
             else{

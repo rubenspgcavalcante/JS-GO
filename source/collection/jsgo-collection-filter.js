@@ -95,40 +95,50 @@ GenericObjectCollection.Filter.prototype.toRoot = function(){
 GenericObjectCollection.Filter.prototype.process = function(genericObject){
     var flag = false;
     var filter = this;
+    var attributeValue = null;
+
+    if(filter.attribute.indexOf(".") != -1){
+        attributeValue = GenericObjectCollection.Query.deepSearch(filter.attribute, genericObject);
+    }
+
+    else{
+        attributeValue = genericObject[filter.attribute].get();
+    }
+
     switch (filter.operator){
         case JSGO.OPERATOR.EQ:
-            if(genericObject[filter.attribute].get() == filter.value){
+            if(attributeValue == filter.value){
                 flag = true;
             }
             break;
 
         case JSGO.OPERATOR.GTE:
-            if(genericObject[filter.attribute].get() >= filter.value){
+            if(attributeValue >= filter.value){
                 flag = true;
             }
             break;
 
         case JSGO.OPERATOR.MTE:
-            if(genericObject[filter.attribute].get() <= filter.value){
+            if(attributeValue <= filter.value){
                 flag = true;
             }
             break;
 
         case JSGO.OPERATOR.GT:
-            if(genericObject[filter.attribute].get() > filter.value){
+            if(attributeValue > filter.value){
                 flag = true;
             }
             break;
 
         case JSGO.OPERATOR.MT:
-            if(genericObject[filter.attribute].get() < filter.value){
+            if(attributeValue < filter.value){
                 flag = true;
             }
             break;
 
         case JSGO.OPERATOR.LIKE:
             if(filter.value.constructor.name == "RegExp"){
-                if(filter.value.test(genericObject[filter.attribute].get())){
+                if(filter.value.test(attributeValue)){
                     flag = true;
                 }
             }

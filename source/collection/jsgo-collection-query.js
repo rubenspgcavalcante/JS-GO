@@ -125,3 +125,40 @@ GenericObjectCollection.Query = function(collection){
         return recordFrom;
     };
 };
+
+/**
+ * If attribute is a object, search recursively inner it
+ *
+ * @static
+ * @param {string} attribute The attribute to search into the object, connected by dots
+ * @param {GenericObject | Object} The object to search into
+ * @returns The value searched
+ */
+GenericObjectCollection.Query.deepSearch = function(attribute, object){
+    var i = attribute.indexOf('.');
+    var innerObjectName = attribute.slice(0,i);
+    var innerObject = null;
+    var attribute = attribute.slice(i+1);
+
+    if(object instanceof GenericObject){
+        innerObject = object[innerObjectName].get();
+    }
+    else if(typeof(object[innerObjectName]) != "undefined"){
+        innerObject = object[innerObjectName];
+    }
+
+    //Exists other points? e.g. customer.creditcard.brand
+    if(attribute.indexOf('.') != -1 && innerObject != null){
+            return GenericObjectCollection.Query.deepSearch(attribute, innerObject);
+    }
+    
+    else if(innerObject != null){
+        if(innerObject instanceof GenericObject)
+            return innerObject[attribute].get();
+        else{
+            return innerObject[attribute]
+        }
+    }
+
+    return null;
+};
