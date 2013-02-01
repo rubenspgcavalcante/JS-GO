@@ -140,10 +140,14 @@ GenericObjectCollection.Query.deepSearch = function(attribute, object){
     var innerObject = null;
     var attribute = attribute.slice(i+1);
 
+    if(typeof(object[innerObjectName]) == "undefined"){
+        return null;
+    }
+
     if(object instanceof GenericObject){
         innerObject = object[innerObjectName].get();
     }
-    else if(typeof(object[innerObjectName]) != "undefined"){
+    else{
         innerObject = object[innerObjectName];
     }
 
@@ -151,7 +155,7 @@ GenericObjectCollection.Query.deepSearch = function(attribute, object){
     if(attribute.indexOf('.') != -1 && innerObject != null){
             return GenericObjectCollection.Query.deepSearch(attribute, innerObject);
     }
-    
+
     else if(innerObject != null){
         if(innerObject instanceof GenericObject)
             return innerObject[attribute].get();
