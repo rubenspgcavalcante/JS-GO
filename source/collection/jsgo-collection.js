@@ -193,6 +193,16 @@ GenericObjectCollection.prototype.sort = function(attribute, order){
     });
 };
 
+/**
+ * Iterates under the objects of the collection
+ *
+ * @param {function(index, value)} Callback to process the values
+ */
+GenericObjectCollection.prototype.each = function(callback){
+    for(var i = 0; i < this.objects.length; i++){
+        callback(i, this.objects[i]);
+    }
+};
 
 /**
  * Prints into console into a pretty format
