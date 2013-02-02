@@ -1,4 +1,4 @@
-#!/usr/bin/node
+#!/usr/bin/nodejs
 /*  
     Average peformance tester
     Requires node.js

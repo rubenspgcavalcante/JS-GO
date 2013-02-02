@@ -30,5 +30,10 @@ minify:
 clean:
 	rm -f $(BUILDPATH) jsgo.min.js
 
-tests:
-	node tests/peformance/run.js
+tests: unitary peformance
+
+unitary: build
+	nodeunit tests/unitary/genericobject.js
+
+peformance: build
+	nodejs tests/peformance/run.js
