@@ -35,6 +35,7 @@ To use? ***No one libs and frameworks***
 
 ###Build
 * make
+_To build do 'make build' and to build AND minify do 'make'_
 
 ###Minify
 * python >= 2.7
@@ -44,22 +45,28 @@ To use? ***No one libs and frameworks***
 * nodejs
 * nodeunit
 
-_To run tests, init and update the submodules_
+_To run tests, init and update the submodules..._
 ````
 git submodule init
 git submodule update
 ````
 
-_Now install nodeunit:_
+_...install nodeunit:_
 ````
 cd tests/nodeunit
 make
 sudo make install
 ````
 
-_Now just run the tests by (in the project root directory):_
+_Now just run the tests by doing: (in the project root directory)_
 ````
 make tests
+````
+
+###Peforamance
+To verify peformance do:
+````
+make peformance
 ````
 
 ##Author
