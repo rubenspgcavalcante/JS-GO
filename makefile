@@ -26,7 +26,7 @@ ${BUILDPATH}: ${MODULES}
 	cat >> $@ $^
 
 minify:
-	python minify.py $(BUILDPATH) --config config.json --statistics
+	python minifier/main.py $(BUILDPATH) --config minifier/config.json --statistics
 
 clean:
 	rm -f $(BUILDPATH) jsgo.min.js
