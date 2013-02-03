@@ -40,6 +40,28 @@ To use? ***No one libs and frameworks***
 * python >= 2.7
 * internet connection
 
+###Tests
+* nodejs
+* nodeunit
+
+_To run tests, init and update the submodules_
+````
+git submodule init
+git submodule update
+````
+
+_Now install nodeunit:_
+````
+cd tests/nodeunit
+make
+sudo make install
+````
+
+_Now just run the tests by (in the project root directory):_
+````
+make tests
+````
+
 ##Author
 
 Rubens Pinheiro Gonçalves Cavalcante  
