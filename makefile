@@ -19,9 +19,10 @@ MODULES = ${SOURCEDIR}license-header.txt\
 
 all: build minify
 
-build: clean ${BUILDPATH}
+build: ${BUILDPATH}
 
 ${BUILDPATH}: ${MODULES}
+	rm -f $(BUILDPATH) jsgo.min.js
 	cat >> $@ $^
 
 minify:
@@ -30,9 +31,7 @@ minify:
 clean:
 	rm -f $(BUILDPATH) jsgo.min.js
 
-tests: unitary peformance
-
-unitary: build
+tests: build
 	nodeunit tests/unitary/genericobject.js
 
 peformance: build

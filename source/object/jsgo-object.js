@@ -158,7 +158,7 @@ GenericObject = function GenericObject(className, attributes, child){
          */
         this[attr].set = function(value, options){
 
-            if(useCast[attr]){
+            if(useCast[this.name]){
                 value = this.cast(value, options);            
             }
 
@@ -186,7 +186,12 @@ GenericObject = function GenericObject(className, attributes, child){
          * @return {Object}
          */
         this[attr].info = function(){
-            return {type: types[this.name], notNull: notNulls[this.name], useCast: useCast[this.name]};
+            return {
+                type: types[this.name],
+                notNull: notNulls[this.name],
+                useCast: useCast[this.name],
+                maxSize: maxSize[this.name]
+            };
         }
     }
 
@@ -250,6 +255,9 @@ GenericObject.prototype.toObject = function(){
  */
 GenericObject.prototype.batchSet = function(values){
     for(i in values){
-        this[i].set(values[i]);
+        //Exludes any function added to Object.prototype
+        if(typeof(values[i]) != "function"){
+          this[i].set(values[i]);
+        }
     }
 };

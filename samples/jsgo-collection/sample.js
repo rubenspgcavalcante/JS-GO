@@ -6,7 +6,7 @@ GenericObject.newType("cpf", function(value){
 // Now we build a class Customer with some attributes
 var Customer = function(){
     return new GenericObject("Customer", [
-        {name: "id", type: "number", notNull: true},
+        {name: "id", type: "positive", notNull: true, useCast: true},
         {name: "name", type: "string", notNull: true},
         {name: "age", type:"positive", notNull: true},
         {name: "email", type:"email", notNull: true},
@@ -16,7 +16,7 @@ var Customer = function(){
 };
 
 var customer1 = new Customer();
-customer1.batchSet({id: 1, name: "John", age:21, email: "john@email.com"});
+customer1.batchSet({id: -1, name: "John", age:21, email: "john@email.com"});
 
 var customer2 = new Customer();
 customer2.batchSet({id: 2, name: "Jack", age:18, email: "jack@email.com"});

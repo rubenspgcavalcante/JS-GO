@@ -7,9 +7,6 @@ GenericObject.typesLibrary = {
     'undefined': {
         validate: function(value){
             return true;
-        },
-        cast: function(value){
-            return value;
         }
     },
 
