@@ -68,7 +68,7 @@ GenericObject.typesLibrary = {
         cast: function(value, _class){
             //The class is the constructor of the object to convert to
             if(typeof(value) == "object" && value.constructor.name == "Object"){
-                if(typeof(_class) == "undefined"){
+                if(typeof(_class) == "undefined" || _class == null){
                     throw Error("Must pass a constructor to cast the object to a genericobject");
                 }
                 else if(_class() instanceof GenericObject){
@@ -113,6 +113,20 @@ GenericObject.typesLibrary = {
     date: {
         validate: function(value){
             return typeof(value) == "object" && value.constructor.name == "Date";
+        },
+
+        cast: function(value){
+            if(typeof(value) == "number") {
+                return new Date(value);
+            }
+
+            else if(typeof(value) == "Object") {
+                return new Date(value[0], value[1], value[2]);
+            }
+
+            else {
+                throw GenericObject.typesLibrary.Error.ofCast(value, "date");
+            }
         }
     },
 

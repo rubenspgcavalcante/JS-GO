@@ -32,6 +32,9 @@ GenericObject = function GenericObject(className, attributes, child){
     // Where the max size values will be stored
     var maxSize = {};
 
+    // Where we store the constructors to use in cast
+    var objectConstructor = {};
+
     // -------------------------- Building Header -------------------------//
     /**
     * The object header, wich contains some information of this object
@@ -46,7 +49,8 @@ GenericObject = function GenericObject(className, attributes, child){
         format[name] = {
             type: attributes[i].type,
             notNull: attributes[i].notNull,
-            useCast: attributes[i].useCast
+            useCast: attributes[i].useCast,
+            objectConstructor: attributes[i].objectConstructor
         };
     }
 
@@ -94,6 +98,7 @@ GenericObject = function GenericObject(className, attributes, child){
         maxSize[attr]   = (typeof(attributes[i].maxSize) == "number") ? attributes[i].maxSize : null;
         notNulls[attr]  = (attributes[i].notNull == true) ? true : false;
         useCast[attr]   = (attributes[i].useCast == true) ? true : false;
+        objectConstructor[attr] = (attributes[i].objectConstructor == undefined) ? null : attributes[i].objectConstructor;
         
         /**
          * Validates the value passed based on the type of the object
@@ -133,15 +138,15 @@ GenericObject = function GenericObject(className, attributes, child){
          * Default casting to a value passed
          *
          * @param value The value to cast
-         * @param options Any other options depending of the type
+         * @param constructor Constructor to use if needed
          * @return The value in the correct format
          */
-        this[attr].cast = function(value, options){
+        this[attr].cast = function(value, constructor){
             var name = this.name;
             var type = GenericObject.typesLibrary[types[name]];
 
             if(typeof(type.cast) != "undefined"){
-                return type.cast(value, options);
+                return type.cast(value, constructor);
             }
 
             else{
@@ -156,10 +161,11 @@ GenericObject = function GenericObject(className, attributes, child){
          * @param Value based on the type of this atribute to set
          * @param Options to pass to caster
          */
-        this[attr].set = function(value, options){
+        this[attr].set = function(value){
 
             if(useCast[this.name]){
-                value = this.cast(value, options);            
+
+                value = this.cast(value, objectConstructor[this.name]);
             }
 
             var validation = this.validate(value);
@@ -257,7 +263,12 @@ GenericObject.prototype.batchSet = function(values){
     for(i in values){
         //Exludes any function added to Object.prototype
         if(typeof(values[i]) != "function"){
-          this[i].set(values[i]);
+            if(typeof(this[i]) == "undefined"){
+                throw Error("GenericObject " + this.header.className + " doesn't have the property " + i);
+            }
+            else{
+                this[i].set(values[i]);
+            }
         }
     }
 };

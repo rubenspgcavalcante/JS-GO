@@ -6,3 +6,5 @@ A set of things to do in next versions
 *   Put objects in collection in a binnary tree (GenericObjectCOllection)
 
 *   Implement LIMIT method (GenericObjectCollection)
+
+*   Implement validation of type before construct a GenericObject
