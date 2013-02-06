@@ -1,0 +1,14 @@
+script: "make"
+
+before_install:
+  - npm install nodeunit
+
+node_js:
+  - 0.8
+
+python:
+  - "2.6"
+
+branches:
+  only:
+    - master
