@@ -13,6 +13,8 @@ import httplib
 import sys
 import json
 
+from datetime import datetime
+
 class Minifier:
 
     def __init__(self, filePath, config, giveStatistics):
@@ -100,6 +102,7 @@ class Minifier:
         if "compiledCode" not in response or response["compiledCode"] == "":
             errors = self.responseParser(self.closureCompilerCall(self.filePath, "errors"))
             self.showErrors(errors)
+            return 1
         
         else:
             if self.giveStatistics == True:
@@ -109,4 +112,8 @@ class Minifier:
             if self.config is not None:
                 response["compiledCode"] = response["compiledCode"].replace("%version%", str(self.config["version"]))
 
+            now = datetime.now().strftime("%Y-%m-%d %H:%M")
+            response["compiledCode"] = response["compiledCode"].replace("%build%", now)
+
             minFile.write(response["compiledCode"].encode("utf-8"))
+            return 0

@@ -1,7 +1,10 @@
 script: "make"
 
 before_install:
-  - npm install nodeunit
+  - cd tests/nodeunit
+  - make
+  - sudo make install
+  - cd ../../
 
 node_js:
   - 0.8

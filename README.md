@@ -1,8 +1,11 @@
 JS-GO (Javascript Generic Objects)
 ===========
+<p align="center">
+  <img src="logo.png"/>
+</p>
 
 ##Build status
-Last build in Travis continuous integration
+Last build in Travis continuous integration  
 [![Build Status](https://travis-ci.org/rubenspgcavalcante/JS-GO.png?branch=master)](https://travis-ci.org/rubenspgcavalcante/JS-GO)
 
 ##About
@@ -24,7 +27,7 @@ A powerfull object running in a overlay to a collection which can do custom quer
 __Can be used both in client side and server side with nodejs__
 
 ##Download
-You can download it in the minified format:
+You can download it in the minified format:  
 [last version minified](https://raw.github.com/rubenspgcavalcante/JS-GO/master/build/jsgo-0.4.min.js)
 
 ##How to use?

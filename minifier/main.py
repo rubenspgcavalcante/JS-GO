@@ -45,4 +45,4 @@ if __name__ == "__main__":
             jsonFile.close()
 
     mini = Minifier(sys.argv[1], config["build"], useStastistics)
-    mini.execute()
+    exit(mini.execute())
