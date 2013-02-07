@@ -1,6 +1,10 @@
 JS-GO (Javascript Generic Objects)
 ===========
 
+##Build status
+Last build in Travis continuous integration
+[![Build Status](https://travis-ci.org/rubenspgcavalcante/JS-GO.png?branch=master)](https://travis-ci.org/rubenspgcavalcante/JS-GO)
+
 ##About
 ***JS-GO*** is a mini framework to have a better control of objects, build the models 'classes' and apply they some business rules.  
 Comes with a lot of types to use in the objects attributes, like string, number, positive, negative, email and others. And give you the power to create your custom types too!  

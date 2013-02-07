@@ -17,7 +17,7 @@ MODULES = ${SOURCEDIR}license-header.txt\
           $(COLLECTIONDIR)jsgo-collection-update.js\
           $(COLLECTIONDIR)jsgo-collection-delete.js\
 
-all: build minify
+all: build tests minify
 
 build: ${BUILDPATH}
 
