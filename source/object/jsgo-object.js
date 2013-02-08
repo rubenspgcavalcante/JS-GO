@@ -44,7 +44,19 @@ GenericObject = function GenericObject(className, attributes, child){
 
     var format = {};
     for(i in attributes){
+        //If no type passed, assume typeless
+        attributes[i].type = (typeof(attributes[i].type) == "undefined")?  "typeless" : attributes[i].type;
+
+        try {
+            GenericObject.validateAttribute(attributes[i]);
+        }
+        catch(e) {
+            console.error(e);
+            return null;
+        }
+
         var name = attributes[i].name.replace(/\ |\./g, "_");
+        
 
         format[name] = {
             type: attributes[i].type,
@@ -270,5 +282,35 @@ GenericObject.prototype.batchSet = function(values){
                 this[i].set(values[i]);
             }
         }
+    }
+};
+
+/**
+ * Validates the format and values of one value of the parameter "attributes"
+ * of the GenericObject Constructor
+ *
+ * @static
+ * @param {Object} attr The attribute object to validate
+ */
+GenericObject.validateAttribute = function(attr){
+    if(typeof(attr.name) != "string") {
+        throw Error("key name must be a string");
+    }
+
+    if(typeof(attr.type) != "string" || typeof(GenericObject.typesLibrary[attr.type]) == "undefined"){
+        throw Error(
+            attr.name + " attribute\n\t" +
+            attr.type + " is not a valid type. Look for valid types using GenericObject.types function"
+        );
+    }
+
+    if(
+        typeof(attr.type) == "genericobject" && attr.useCast == true &&
+        (typeof(attr.objectConstructor) != "function" || !(new attr.objectConstructor() instanceof GenericObject))
+    ) {
+        throw Error(
+            attr.name +
+            " uses cast, please pass as parameter the objectConstructor of a GenericObject instance"
+        );
     }
 };
