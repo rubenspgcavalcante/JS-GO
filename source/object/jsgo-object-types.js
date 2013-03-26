@@ -4,7 +4,7 @@
  */
 GenericObject.typesLibrary = {
     //Native types
-    'undefined': {
+    'typeless': {
         validate: function(value){
             return true;
         }
@@ -183,6 +183,8 @@ GenericObject.typesLibrary.Error = {
  * @param {function} cast (Optional) A function to be a default caster
  */
 GenericObject.newType = function(type, validation, cast){
+    this.typesLibrary[type] = {};
+
     if(typeof(type) == "undefined" || type == null){
         throw TypeError("First parameter must contain a string representing the name of the type");
     }
@@ -191,15 +193,27 @@ GenericObject.newType = function(type, validation, cast){
         throw TypeError("The second parameter must contain a function");
     }
 
-    else if(typeof(cast) != "undefined" && typeof(cast) != "function"){
-        throw TypeError("The third parameter must contain a function");
+    else {
+        this.typesLibrary[type].validate = validation;
     }
 
-    else if(typeof(validation("test")) != "boolean"){
-        throw Error("The validation function must return boolean");
+
+    //Test the cast passed
+    if(typeof(cast) != "undefined"){
+
+        if(typeof(cast) != "function"){
+            throw TypeError("The third parameter must contain a function");
+        }
+
+        else if(typeof(validation("test")) != "boolean"){
+            throw Error("The validation function must return boolean");
+        }
+
+        else {
+            this.typesLibrary[type].cast = cast;
+        }
     }
 
-    this.typesLibrary[type] = {validate: validation};
 };
 
 

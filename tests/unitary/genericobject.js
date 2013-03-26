@@ -114,7 +114,7 @@ module.exports = testCase({
 
         Cast: function(test){
             var types = GenericObject.typesLibrary;
-             test.expect(12);
+            test.expect(12);
 
             test.strictEqual(types.string.cast(-10.2), "-10.2", "Error string cast");
             test.strictEqual(types.number.cast("-10.3"), -10.3, "Error number cast");
@@ -139,8 +139,60 @@ module.exports = testCase({
              test.strictEqual(newObj.phone.get(), "+559999999999", "Error genericobject cast: phone");
 
             test.done();
-        }
+        },
 
+        Validate: function(test){
+            var types = GenericObject.typesLibrary;
+            test.expect(14);
+
+            test.ok(types.string.validate("Hello"), "Error genericobject validate: string");
+            test.ok(types.number.validate(-40.2), "Error genericobject validate: number");
+            test.ok(types.boolean.validate(false), "Error genericobject validate: boolean");
+            test.ok(types.function.validate(console.log), "Error genericobject validate: function");
+            test.ok(types.object.validate({}), "Error genericobject validate: object");
+            test.ok(types.array.validate([]), "Error genericobject validate: array");
+            test.ok(types.genericobject.validate(this.customer), "Error genericobject validate: genericobject");
+            test.ok(types.integer.validate(-42), "Error genericobject validate: integer");
+            test.ok(types.positive.validate(42), "Error genericobject validate: positive");
+            test.ok(types.negative.validate(-42), "Error genericobject validate: negative");
+            test.ok(types.date.validate(new Date()), "Error genericobject validate: date");
+            test.ok(types.year.validate(2013)), "Error genericobject validate: year";
+            test.ok(types.email.validate("foo@bar.com"), "Error genericobject validate: email");
+            test.ok(types.phone.validate("+5599999999"), "Error genericobject validate: phone");
+
+            test.done();
+        },
+
+        NewType: function(test){
+            var types = GenericObject.typesLibrary;
+            test.expect(3);
+
+            GenericObject.newType("ninini",
+                function validate(value){
+                    return /^(ni\ )*(ni)$/.test(value);
+                },
+                function cast(value){
+                    var res = "";
+
+                    if(typeof(value)=="string"){
+                        value = value.split(" ");
+
+                        for(var i = 0; i < value.length; i++){
+                            res += "ni ";
+                        }
+
+                        res += "ni";
+                        return res;
+                    }
+                }
+            );
+
+            test.equals(typeof(types.ninini), "object", "Error in create new type");
+            test.ok(types.ninini.validate("ni ni ni"), "Error in validate new type");
+            test.strictEqual(types.ninini.cast("foo bar"), "ni ni ni", "Error in cast new type");
+
+            test.done();
+        }
     })
   
 });
