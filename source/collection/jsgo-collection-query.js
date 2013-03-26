@@ -18,7 +18,7 @@ GenericObjectCollection.Query = function(collection){
         orderby: null
     };
 
-    /*
+    /**
      * The from function used by the Select and Delete methods
      *
      * @param {string} className The class type of object to analyse

@@ -105,7 +105,7 @@ GenericObject.typesLibrary = {
             return typeof(value) == "number" && value <= 0;
         },
         cast: function(value){
-            var number = Number(value)
+            var number = Number(value);
             return (number <= 0)? number : -number;
         }
     },
@@ -136,7 +136,7 @@ GenericObject.typesLibrary = {
         },
         cast: function(value){
             if(typeof(value) == "string"){
-                var value = Number(value);
+                value = Number(value);
             }
             else if(typeof(value) == "object" && value.constructor == Date){
                 value = value.getFullYear();
