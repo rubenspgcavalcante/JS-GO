@@ -57,7 +57,7 @@ GenericObject.typesLibrary = {
 
     array: {
         validate: function(value){
-            return typeof(value) == "object" && value.constructor.name == "Array";
+            return typeof(value) == "object" && value.constructor == Array;
         }
     },
 
@@ -67,7 +67,7 @@ GenericObject.typesLibrary = {
         },
         cast: function(value, _class){
             //The class is the constructor of the object to convert to
-            if(typeof(value) == "object" && value.constructor.name == "Object"){
+            if(typeof(value) == "object" && value.constructor == Object){
                 if(typeof(_class) == "undefined" || _class == null){
                     throw Error("Must pass a constructor to cast the object to a genericobject");
                 }
@@ -112,7 +112,7 @@ GenericObject.typesLibrary = {
 
     date: {
         validate: function(value){
-            return typeof(value) == "object" && value.constructor.name == "Date";
+            return typeof(value) == "object" && value.constructor == Date;
         },
 
         cast: function(value){
@@ -138,7 +138,7 @@ GenericObject.typesLibrary = {
             if(typeof(value) == "string"){
                 var value = Number(value);
             }
-            else if(typeof(value) == "object" && value.constructor.name == "Date"){
+            else if(typeof(value) == "object" && value.constructor == Date){
                 value = value.getFullYear();
             }
 

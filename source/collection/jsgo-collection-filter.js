@@ -137,7 +137,7 @@ GenericObjectCollection.Filter.prototype.process = function(genericObject){
             break;
 
         case JSGO.OPERATOR.LIKE:
-            if(filter.value.constructor.name == "RegExp"){
+            if(filter.value.constructor == RegExp){
                 if(filter.value.test(attributeValue)){
                     flag = true;
                 }
