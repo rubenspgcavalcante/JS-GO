@@ -16,7 +16,10 @@
  * @param {Object} (Optional) child who will extend
  */
 GenericObject = function GenericObject(className, attributes, child){
-
+    if(className.constructor != String){
+    	throw TypeError("className must be String");
+    }
+    
     var _size = 0;
 
     // Where the attributes types will be stored

@@ -44,7 +44,14 @@ GenericObjectCollection.Query = function(collection){
                     response = [];
                 }
                 
-                var list = that.collection.objects.slice();
+                var list = [];
+                if(that.collection instanceof GenericObjectCollection){
+                	list = that.collection.objects.slice();
+                }
+                
+                else{
+                	list = that.collection.slice();
+                }
 
                 /*
                  We need a counter, because when removes a object the index of all who are
@@ -53,7 +60,7 @@ GenericObjectCollection.Query = function(collection){
                 var cnt = 0;
 
                 for (i in list){
-                    if(list[i].header.className == className){
+                    if(className == "*" || list instanceof className || list[i].header.className == className){
 
                         //If the object matches the filters do a (SELECT, DELETE, UPDATE)
                         if(filter.process(list[i])){
@@ -124,7 +131,8 @@ GenericObjectCollection.Query = function(collection){
 };
 
 /**
- * If attribute is a object, search recursively inner it
+ * If attribute is a object, search recursively inner it, 
+ * e.g.: customer.car.plate
  *
  * @static
  * @param {string} attribute The attribute to search into the object, connected by dots

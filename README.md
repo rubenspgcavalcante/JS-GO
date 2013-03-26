@@ -28,7 +28,7 @@ __Can be used both in client side and server side with nodejs__
 
 ##Download
 You can download it in the minified format:  
-[last version minified](https://raw.github.com/rubenspgcavalcante/JS-GO/master/build/jsgo-0.42.min.js)
+[last version minified](https://raw.github.com/rubenspgcavalcante/JS-GO/master/build/jsgo-0.45.min.js)
 
 ##How to use?
 See how to use it the complete API in [JS-GO Wiki](https://github.com/rubenspgcavalcante/JS-GO/wiki)

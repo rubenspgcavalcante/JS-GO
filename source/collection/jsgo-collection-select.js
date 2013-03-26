@@ -32,8 +32,11 @@ GenericObjectCollection.Query.prototype.Select = function(attributes){
                 if(attributes[i].indexOf(".") != -1){
                     result[attributes[i]] = GenericObjectCollection.Query.deepSearch(attributes[i], object);
                 }
-                else{
+                else if(object[attributes[i]] instanceof GenericObject){
                     result[attributes[i]] = object[attributes[i]].get();
+                }
+                else{
+                	result[attributes[i]] = object[attributes[i]];
                 }
             }
 
@@ -67,7 +70,7 @@ Object.defineProperty(GenericObjectCollection.Query.prototype, "__whenOrderBy", 
 
         values.sort(function(a, b){
             a = a[attribute];
-            b = b[attribute]    ;
+            b = b[attribute];
 
             return order == JSGO.ORDER.ASC ? a > b : a < b;
         });

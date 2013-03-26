@@ -68,7 +68,7 @@ GenericObjectCollection.Filter.prototype.XOR = function(attribute, operator, val
     this.xor = new GenericObjectCollection.Filter(attribute, operator, value, this);
     this.and = null;
     this.or = null;
-    return this.and;
+    return this.xor;
 };
 
 
@@ -85,24 +85,28 @@ GenericObjectCollection.Filter.prototype.toRoot = function(){
     return root;
 };
 
-/*
+/**
  * Recursive method to process the filter and the child filters 
  * (OR or AND) returning if the value pass or not.
  *
  * @param {Object} genericObject The object used to compare based on filter
  * @return {boolean} If the value pass on the test filters
  */
-GenericObjectCollection.Filter.prototype.process = function(genericObject){
+GenericObjectCollection.Filter.prototype.process = function(objectParam){
     var flag = false;
     var filter = this;
     var attributeValue = null;
 
     if(filter.attribute.indexOf(".") != -1){
-        attributeValue = GenericObjectCollection.Query.deepSearch(filter.attribute, genericObject);
+        attributeValue = GenericObjectCollection.Query.deepSearch(filter.attribute, objectParam);
     }
-
+    
+    else if(objectParam instanceof GenericObject){
+    	attributeValue = objectParam[filter.attribute].get();
+    }
+    
     else{
-        attributeValue = genericObject[filter.attribute].get();
+    	attributeValue = objectParam[filter.attribute];
     }
 
     switch (filter.operator){
@@ -137,7 +141,7 @@ GenericObjectCollection.Filter.prototype.process = function(genericObject){
             break;
 
         case JSGO.OPERATOR.LIKE:
-            if(filter.value.constructor == RegExp){
+            if(filter.value instanceof RegExp){
                 if(filter.value.test(attributeValue)){
                     flag = true;
                 }
@@ -154,15 +158,15 @@ GenericObjectCollection.Filter.prototype.process = function(genericObject){
     }
 
     if(filter.or != null){
-        return flag || filter.or.process(genericObject);
+        return flag || filter.or.process(objectParam);
     }
 
     else if(filter.and != null){
-        return flag && filter.and.process(genericObject);
+        return flag && filter.and.process(objectParam);
     }
 
     else if(filter.xor != null){
-        var secflag = filter.xor.process(genericObject);
+        var secflag = filter.xor.process(objectParam);
         return (flag && !secflag) || (!flag && secflag);
     }
 
