@@ -39,12 +39,9 @@ GenericObjectCollection.Query = function(collection){
             };
 
             var run = function(){
+            	var response = false;
                 if(that.query.type == JSGO.METHOD.SELECT){
-                    var response = [];
-                }
-
-                else{
-                    var response = false;
+                    response = [];
                 }
                 
                 var list = that.collection.objects.slice();
@@ -68,7 +65,7 @@ GenericObjectCollection.Query = function(collection){
                                 case JSGO.METHOD.UPDATE:
                                     var attributes = that.query.selection;
                                     var flag = that.__whenUpdate(attributes, i);  
-                                    response = response ? true : flag
+                                    response = response ? true : flag;
                                     break;
 
                                 case JSGO.METHOD.DELETE:
@@ -89,7 +86,7 @@ GenericObjectCollection.Query = function(collection){
                     that.__whenOrderBy(response, that.orderby.attribute, that.orderby.order);
                 }
                 return response;
-            }
+            };
 
             /*
              The method UPDATE, must not return the object containing the run method.
@@ -103,7 +100,7 @@ GenericObjectCollection.Query = function(collection){
 
                     return recordSet;
                 };
-                return recordWhere
+                return recordWhere;
             }
 
             /*
@@ -116,12 +113,12 @@ GenericObjectCollection.Query = function(collection){
                     recordOrderBy.run = run;
 
                     return recordOrderBy;
-                }
+                };
             }
 
             recordWhere.run = run;
             return recordWhere;
-        }
+        };
         return recordFrom;
     };
 };
@@ -138,7 +135,7 @@ GenericObjectCollection.Query.deepSearch = function(attribute, object){
     var i = attribute.indexOf('.');
     var innerObjectName = attribute.slice(0,i);
     var innerObject = null;
-    var attribute = attribute.slice(i+1);
+    attribute = attribute.slice(i+1);
 
     if(typeof(object[innerObjectName]) == "undefined"){
         return null;
@@ -160,7 +157,7 @@ GenericObjectCollection.Query.deepSearch = function(attribute, object){
         if(innerObject instanceof GenericObject)
             return innerObject[attribute].get();
         else{
-            return innerObject[attribute]
+            return innerObject[attribute];
         }
     }
 

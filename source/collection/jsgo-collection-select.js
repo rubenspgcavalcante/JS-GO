@@ -61,7 +61,6 @@ Object.defineProperty(GenericObjectCollection.Query.prototype, "__whenOrderBy", 
     configurable: false,
     writable: false,
     value: function(values, attribute, order){
-        var attribute = attribute;
         if(typeof(order) == "undefined" || order != JSGO.ORDER.ASC && order != JSGO.ORDER.DESC){
             throw Error("Unrecognized order type. Use JSGO.ORDER enum");
         }
