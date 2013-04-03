@@ -15,6 +15,16 @@ var Customer = function(){
     ]);
 };
 
+var Seller = function(){
+	return new GenericObject("Seller", [
+		{name: "id", type: "positive", notNull: true, useCast: true},
+		{name: "name", type: "string", notNull: true},
+	]);
+};
+
+/*
+ * Creating the customers
+ */
 var customer1 = new Customer();
 customer1.batchSet({id: -1, name: "John", age:21, email: "john@email.com"});
 
@@ -22,7 +32,7 @@ var customer2 = new Customer();
 customer2.batchSet({id: 2, name: "Jack", age:18, email: "jack@email.com"});
 
 var customer3 = new Customer();
-customer3.batchSet({id: 3, name: "Billy", age:46, email: "billy@email.com"});
+customer3.batchSet({id: 3, name: "Billy", age:46, email: "billy@email.com.br"});
 
 var customer4 = new Customer();
 customer4.batchSet({id: 4, name: "Joe", age:64, email: "joe@email.com"});
@@ -30,13 +40,38 @@ customer4.batchSet({id: 4, name: "Joe", age:64, email: "joe@email.com"});
 var customer5 = new Customer();
 customer5.batchSet({id: 5, name: "Armstrong", age:34, email: "armstrong@email.com"});
 
-var collection = new GenericObjectCollection();
-collection.add(customer1, customer2, customer3, customer4, customer5);
+/*
+ * Creating the sellers
+ */
+var seller1 = new Seller();
+seller1.batchSet({id: 1, name: "Orlon"});
 
+var seller2 = new Seller();
+seller1.batchSet({id: 2, name: "Barlon"});
+
+var seller3 = new Seller();
+seller1.batchSet({id: 3, name: "Orton"});
+
+
+/*
+ * Adding all in the collection, customers and sellers
+ */
+var collection = new GenericObjectCollection();
+collection.add(customer1, customer2, customer3, customer4, customer5, seller1, seller2, seller3);
+
+/*
+ * Creating the query object and a short denomination to the Filter constructor
+ */
 var query = new GenericObjectCollection.Query(collection);
 var Filter = GenericObjectCollection.Filter;
 
 
+/*
+ * When the page all loaded, do a simple Select
+ * and prints in the page
+ * 
+ * Note, billy (customer 3) is not selected because his email is in @email.com.br and not in @email.com format :)
+ */
 document.onreadystatechange = function(){
     if ('complete' == document.readyState) {
         document.getElementById("before").innerHTML = collection.prettyPrint();
@@ -44,15 +79,15 @@ document.onreadystatechange = function(){
 
         var result = query.run();
 
-        var html = ""
+        var html = "";
         for(i in result){
             html += "<ul>";
-                html += "<li>"+ result[i].id +"</li>";
-                html += "<li>"+ result[i].name +"</li>";
-                html += "<li>"+ result[i].email +"</li>";
+                html += "<li>"+ result[i].id.get() +"</li>";
+                html += "<li>"+ result[i].name.get() +"</li>";
+                html += "<li>"+ result[i].email.get() +"</li>";
             html += "</ul><br/>";
         }
 
         document.getElementById("after").innerHTML = html;
     }
-}
+};

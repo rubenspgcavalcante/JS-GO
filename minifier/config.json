@@ -2,6 +2,6 @@
     "build": {
         "path": "build/",
         "filename": "jsgo",
-        "version": 0.45
+        "version": 0.46
     }
 }

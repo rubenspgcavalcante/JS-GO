@@ -24,6 +24,18 @@ GenericObjectCollection.Filter = function(attribute, operator, value, _parent){
 
 };
 
+/**
+ * Constructor to return  pre-defined filters
+ * 
+ * @param {string} preDefinedFilter The name of the pre-defined filter. Please use the JSGO.FILTER enum
+ * @param {string} attribute The attribute to use in filter constructor
+ * @param {value} the value to use in filter constructor
+ */
+GenericObjectCollection.Filter.PreDefined = function(preDefinedFilter, attribute, value){
+	if(preDefinedFilter == JSGO.FILTER.ALL){
+		return GenericObjectCollection.Filter(attribute, JSGO.OPERATOR.LIKE, /\d*/);
+	}
+};
 
 /**
  * Method to carry to others filters using the OR logic
@@ -93,16 +105,29 @@ GenericObjectCollection.Filter.prototype.toRoot = function(){
  * @return {boolean} If the value pass on the test filters
  */
 GenericObjectCollection.Filter.prototype.process = function(objectParam){
-    var flag = false;
+    
+	var flag = false;
     var filter = this;
     var attributeValue = null;
+	
+    if(filter.operator == JSGO.OPERATOR.TAUTOLOGICAL){
+		return true;
+    }
+    else if(filter.operator == JSGO.OPERATOR.CONTRADICTORY){
+		return false;
+    }
 
     if(filter.attribute.indexOf(".") != -1){
         attributeValue = GenericObjectCollection.Query.deepSearch(filter.attribute, objectParam);
     }
     
     else if(objectParam instanceof GenericObject){
-    	attributeValue = objectParam[filter.attribute].get();
+    	if(typeof(objectParam[filter.attribute]) != "undefined"){
+    		attributeValue = objectParam[filter.attribute].get();
+    	}
+    	else{
+    		throw Error(filter.attribute + " is not a attribute of " + objectParam.header.className);
+    	}
     }
     
     else{
@@ -110,6 +135,7 @@ GenericObjectCollection.Filter.prototype.process = function(objectParam){
     }
 
     switch (filter.operator){
+
         case JSGO.OPERATOR.EQ:
             if(attributeValue == filter.value){
                 flag = true;

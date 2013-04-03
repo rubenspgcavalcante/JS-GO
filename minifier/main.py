@@ -1,8 +1,8 @@
-import json
 import sys
 from getopt import getopt
 
 from minify import Minifier
+from config import Config
 
 def help():
     print "How to run:"
@@ -33,16 +33,8 @@ if __name__ == "__main__":
             useStastistics = True
 
         elif opt in ("-c", "--config"):
-            jsonFile = open(arg)
-
-            try:
-                config = json.load(jsonFile)
-
-            except ValueError:
-                print "File isn't in a valid json format"
-                sys.exit()
-
-            jsonFile.close()
-
-    mini = Minifier(sys.argv[1], config["build"], useStastistics)
+            if not Config().register(arg):
+                exit(1)
+    
+    mini = Minifier(sys.argv[1], useStastistics)
     exit(mini.execute())

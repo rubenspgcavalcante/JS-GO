@@ -28,6 +28,13 @@ GenericObjectCollection.Query = function(collection){
         that.query.from = className;
         
         recordFrom.Where = function(filter){
+        	/*
+        	 * If the user pass the JSGO.FILTER.ALL
+        	 */
+        	if(filter == JSGO.FILTER.ALL){
+        		filter = new GenericObjectCollection.Filter(null, JSGO.OPERATOR.TAUTOLOGICAL, null);
+        	}
+        	
             //Get the root filter
             filter = filter.toRoot();
 
@@ -60,7 +67,7 @@ GenericObjectCollection.Query = function(collection){
                 var cnt = 0;
 
                 for (i in list){
-                    if(className == "*" || list instanceof className || list[i].header.className == className){
+                    if(list[i].header.className == className || className == "*" || typeof(className) == "object" && list instanceof className){
 
                         //If the object matches the filters do a (SELECT, DELETE, UPDATE)
                         if(filter.process(list[i])){
