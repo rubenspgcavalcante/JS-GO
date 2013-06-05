@@ -24,7 +24,12 @@ GenericObjectCollection.Query.prototype.Select = function(attributes){
         var attributes = that.query.selection;
         for(i in attributes){
             if(attributes[i] == "*"){
-                result = object.toObject();
+            	if(object instanceof GenericObject){
+            		result = object.toObject();
+            	}
+            	else{
+            		result = object;
+            	}
                 break;
             }
 
