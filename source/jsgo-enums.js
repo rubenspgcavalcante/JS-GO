@@ -39,14 +39,14 @@ Object.defineProperty(JSGO.OPERATOR, "TAUTOLOGICAL", {
 	enumerable: true,
 	configurable: false,
 	writable: false,
-	value: "eq"
+	value: "taut"
 });
 
 Object.defineProperty(JSGO.OPERATOR, "CONTRADICTORY", {
 	enumerable: true,
 	configurable: false,
 	writable: false,
-	value: "eq"
+	value: "contr"
 });
 
 Object.defineProperty(JSGO.OPERATOR, "EQ", {
