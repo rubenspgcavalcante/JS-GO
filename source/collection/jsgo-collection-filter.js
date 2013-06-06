@@ -7,7 +7,7 @@
  * @param {string} operator The operator used
  * @param value The value to search and compare using the operator
  * @param {object} _parent Used only by the methods AND and OR
- * @return {Object} Filter
+ * @return {GenericObjectCollection.Filter} Filter
  */
 GenericObjectCollection.Filter = function(attribute, operator, value, _parent){
 
@@ -35,6 +35,30 @@ GenericObjectCollection.Filter.PreDefined = function(preDefinedFilter, attribute
 	if(preDefinedFilter == JSGO.FILTER.ALL){
 		return GenericObjectCollection.Filter(attribute, JSGO.OPERATOR.LIKE, /\d*/);
 	}
+};
+
+/**
+ * Verify if this filter is empty
+ * @return {Boolean}
+ */
+GenericObjectCollection.Filter.prototype.empty = function(){
+    return typeof(this.attribute) == "undefined" || typeof(this.operator) == "undefined" || typeof(this.value) == "undefined";
+};
+
+/**
+ * Later constructor of the filter
+ * You can only instance a empty filter first and later init the filter
+ * @param {string} attribute Atribute to look and compare
+ * @param {string} operator The operator used
+ * @param value The value to search and compare using the operator
+ * @param {object} _parent Used only by the methods AND and OR
+ */
+GenericObjectCollection.Filter.prototype.init = function(attribute, operator, value){
+    this.attribute = attribute;
+    this.operator = operator;
+    this.value = value;
+
+    return this;
 };
 
 /**
@@ -138,6 +162,12 @@ GenericObjectCollection.Filter.prototype.process = function(objectParam){
 
         case JSGO.OPERATOR.EQ:
             if(attributeValue == filter.value){
+                flag = true;
+            }
+            break;
+
+        case JSGO.OPERATOR.NEQ:
+            if(attributeValue != filter.value){
                 flag = true;
             }
             break;

@@ -56,6 +56,13 @@ Object.defineProperty(JSGO.OPERATOR, "EQ", {
   value: "eq"
 });
 
+Object.defineProperty(JSGO.OPERATOR, "NEQ", {
+  enumerable: true,
+  configurable: false,
+  writable: false,
+  value: "neq"
+});
+
 Object.defineProperty(JSGO.OPERATOR, "GT", {
 	enumerable: true,
 	configurable: false,
