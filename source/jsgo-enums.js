@@ -91,6 +91,12 @@ Object.defineProperty(JSGO.OPERATOR, "LIKE", {
 	value: "like"
 });
 
+Object.defineProperty(JSGO.OPERATOR, "HAS", {
+    enumerable: true,
+    configurable: false,
+    writable: false,
+    value: "has"
+});
 
 /*
  * Query methods used into Query Object

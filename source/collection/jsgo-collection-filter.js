@@ -174,6 +174,17 @@ GenericObjectCollection.Filter.prototype.process = function(objectParam){
             }
             break;
 
+        case JSGO.OPERATOR.HAS:
+            if(attributeValue instanceof Array){
+                for(var i in attributeValue){
+                    if(filter.value == attributeValue[i]){
+                        flag = true;
+                        break;
+                    }
+                }
+            }
+            break;
+
         default:
             throw Error("Operator "+filter.operator+" doesn't exists");
     }
