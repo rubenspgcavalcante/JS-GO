@@ -80,7 +80,7 @@ GenericObjectCollection.prototype._find = function(attr, value, unique){
  * @return {Array<Object>} The objects matches
  */
 GenericObjectCollection.prototype.find = function(attr, value){
-    var result = this._find(attr, value, false)
+    var result = this._find(attr, value, false);
     var objects = [];
 
     for(i in result){
@@ -112,7 +112,7 @@ GenericObjectCollection.prototype.findUnique = function(attr, value){
  * @return {number} The index of the object or -1 if not found
  */
 GenericObjectCollection.prototype.indexesOf = function(attr, value){
-        var result = this._find(attr, value, false)
+        var result = this._find(attr, value, false);
     var indexes = [];
 
     for(i in result){

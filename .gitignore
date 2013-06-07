@@ -2,3 +2,6 @@ jsgo.js
 *~
 *.old
 *.pyc
+.project
+.settings/*
+.pydevproject

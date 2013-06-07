@@ -18,7 +18,7 @@ GenericObjectCollection.Query = function(collection){
         orderby: null
     };
 
-    /*
+    /**
      * The from function used by the Select and Delete methods
      *
      * @param {string} className The class type of object to analyse
@@ -28,6 +28,13 @@ GenericObjectCollection.Query = function(collection){
         that.query.from = className;
         
         recordFrom.Where = function(filter){
+        	/*
+        	 * If the user pass the JSGO.FILTER.ALL
+        	 */
+        	if(filter == JSGO.FILTER.ALL){
+        		filter = new GenericObjectCollection.Filter(null, JSGO.OPERATOR.TAUTOLOGICAL, null);
+        	}
+        	
             //Get the root filter
             filter = filter.toRoot();
 
@@ -39,15 +46,19 @@ GenericObjectCollection.Query = function(collection){
             };
 
             var run = function(){
+            	var response = false;
                 if(that.query.type == JSGO.METHOD.SELECT){
-                    var response = [];
-                }
-
-                else{
-                    var response = false;
+                    response = [];
                 }
                 
-                var list = that.collection.objects.slice();
+                var list = [];
+                if(that.collection instanceof GenericObjectCollection){
+                	list = that.collection.objects.slice();
+                }
+                
+                else{
+                	list = that.collection.slice();
+                }
 
                 /*
                  We need a counter, because when removes a object the index of all who are
@@ -56,7 +67,7 @@ GenericObjectCollection.Query = function(collection){
                 var cnt = 0;
 
                 for (i in list){
-                    if(list[i].header.className == className){
+                    if(list[i].header.className == className || className == "*" || typeof(className) == "object" && list instanceof className){
 
                         //If the object matches the filters do a (SELECT, DELETE, UPDATE)
                         if(filter.process(list[i])){
@@ -68,7 +79,7 @@ GenericObjectCollection.Query = function(collection){
                                 case JSGO.METHOD.UPDATE:
                                     var attributes = that.query.selection;
                                     var flag = that.__whenUpdate(attributes, i);  
-                                    response = response ? true : flag
+                                    response = response ? true : flag;
                                     break;
 
                                 case JSGO.METHOD.DELETE:
@@ -89,7 +100,7 @@ GenericObjectCollection.Query = function(collection){
                     that.__whenOrderBy(response, that.orderby.attribute, that.orderby.order);
                 }
                 return response;
-            }
+            };
 
             /*
              The method UPDATE, must not return the object containing the run method.
@@ -103,7 +114,7 @@ GenericObjectCollection.Query = function(collection){
 
                     return recordSet;
                 };
-                return recordWhere
+                return recordWhere;
             }
 
             /*
@@ -116,18 +127,19 @@ GenericObjectCollection.Query = function(collection){
                     recordOrderBy.run = run;
 
                     return recordOrderBy;
-                }
+                };
             }
 
             recordWhere.run = run;
             return recordWhere;
-        }
+        };
         return recordFrom;
     };
 };
 
 /**
- * If attribute is a object, search recursively inner it
+ * If attribute is a object, search recursively inner it, 
+ * e.g.: customer.car.plate
  *
  * @static
  * @param {string} attribute The attribute to search into the object, connected by dots
@@ -138,7 +150,7 @@ GenericObjectCollection.Query.deepSearch = function(attribute, object){
     var i = attribute.indexOf('.');
     var innerObjectName = attribute.slice(0,i);
     var innerObject = null;
-    var attribute = attribute.slice(i+1);
+    attribute = attribute.slice(i+1);
 
     if(typeof(object[innerObjectName]) == "undefined"){
         return null;
@@ -160,7 +172,7 @@ GenericObjectCollection.Query.deepSearch = function(attribute, object){
         if(innerObject instanceof GenericObject)
             return innerObject[attribute].get();
         else{
-            return innerObject[attribute]
+            return innerObject[attribute];
         }
     }
 

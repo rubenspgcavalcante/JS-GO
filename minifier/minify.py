@@ -15,11 +15,13 @@ import json
 
 from datetime import datetime
 
+from config import Config
+
 class Minifier:
 
-    def __init__(self, filePath, config, giveStatistics):
+    def __init__(self, filePath, giveStatistics):
         self.filePath = filePath
-        self.config = config
+        self.config = Config().get()
         self.giveStatistics = giveStatistics
 
     def loadFile(self, filePath):
@@ -92,7 +94,7 @@ class Minifier:
 
     def execute(self):
         if self.config is not None:
-            minFile = open(self.config["path"]+self.config["filename"]+"-"+str(self.config["version"])+".min.js", "w")
+            minFile = open(self.config.build.path + self.config.build.filename +"-"+str(self.config.build.version)+".min.js", "w")
         
         else:
             minFile = open("jsgo.min.js", "w")
@@ -110,7 +112,7 @@ class Minifier:
                 self.showStatistics(statistics)
 
             if self.config is not None:
-                response["compiledCode"] = response["compiledCode"].replace("%version%", str(self.config["version"]))
+                response["compiledCode"] = response["compiledCode"].replace("%version%", str(self.config.build.version))
 
             now = datetime.now().strftime("%Y-%m-%d %H:%M")
             response["compiledCode"] = response["compiledCode"].replace("%build%", now)

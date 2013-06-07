@@ -16,8 +16,10 @@
  * @param {Object} (Optional) child who will extend
  */
 GenericObject = function GenericObject(className, attributes, child){
-
-    var that = this;
+    if(className.constructor != String){
+    	throw TypeError("className must be String");
+    }
+    
     var _size = 0;
 
     // Where the attributes types will be stored
@@ -68,14 +70,6 @@ GenericObject = function GenericObject(className, attributes, child){
 
     Object.defineProperty(this.header, "format", {
         value: format,
-        writable: false,
-        enumerable: true,
-        configurable: false
-    });
-
-
-    Object.defineProperty(this.header, "GenericObject", {
-        value: true,
         writable: false,
         enumerable: true,
         configurable: false
@@ -210,7 +204,7 @@ GenericObject = function GenericObject(className, attributes, child){
                 useCast: useCast[this.name],
                 maxSize: maxSize[this.name]
             };
-        }
+        };
     }
 
     //If passed any object, extend it
@@ -227,7 +221,7 @@ GenericObject = function GenericObject(className, attributes, child){
 };
 
 /**
- * Returns the attributes in a simple object
+ * Recursive method returns the attributes in a simple struct format
  *
  * @param {function} callback A function to process each attribute
  */
@@ -261,6 +255,9 @@ GenericObject.prototype.toObject = function(){
         var name = index;
         var checkValue = typeof(this[name].value) == "undefined";
         simpleObject[name] = checkValue ? null : this[name].value;
+        if(simpleObject[name]!= null && simpleObject[name].constructor == GenericObject){
+        	simpleObject[name] = simpleObject[name].toObject();
+        }
     }
 
     return simpleObject;
