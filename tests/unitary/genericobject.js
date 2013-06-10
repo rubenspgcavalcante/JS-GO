@@ -6,7 +6,7 @@
 */
 
 require('../../build/jsgo.js');
-require('./utils.js');
+var objectEquals = require('./utils.js');
 var Customer = require('./models/customer.js');
 var testCase = require('../nodeunit/lib/nodeunit').testCase;
 
@@ -83,11 +83,11 @@ module.exports = testCase({
         Info: function(test) {
             test.expect(5);
 
-            test.ok(this.customer.id.info().equals({type: "positive", notNull: true, useCast: true, maxSize: null }), "Error id");
-            test.ok(this.customer.name.info().equals({type: "string", notNull: true, useCast: false, maxSize: null }), "Error name");
-            test.ok(this.customer.age.info().equals({type:"positive", notNull: true, useCast: false, maxSize: null }), "Error age");
-            test.ok(this.customer.email.info().equals({type:"email", notNull: true, useCast: false, maxSize: 25 }), "Error email");
-            test.ok(this.customer.phone.info().equals({type: "phone", notNull: false, useCast: false , maxSize: null }), "Error phone");
+            test.ok(objectEquals(this.customer.id.info(), {type: "positive", notNull: true, useCast: true, maxSize: null }), "Error id");
+            test.ok(objectEquals(this.customer.name.info(), {type: "string", notNull: true, useCast: false, maxSize: null }), "Error name");
+            test.ok(objectEquals(this.customer.age.info(), {type:"positive", notNull: true, useCast: false, maxSize: null }), "Error age");
+            test.ok(objectEquals(this.customer.email.info(), {type:"email", notNull: true, useCast: false, maxSize: 25 }), "Error email");
+            test.ok(objectEquals(this.customer.phone.info(), {type: "phone", notNull: false, useCast: false , maxSize: null }), "Error phone");
 
             test.done();
         },
