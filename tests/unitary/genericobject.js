@@ -7,9 +7,13 @@
 
 require('../../build/jsgo.js');
 require('./utils.js');
+var Customer = require('./models/customer.js');
 var testCase = require('../nodeunit/lib/nodeunit').testCase;
 
-//Util function to set some values
+/**
+ * Util function to set some values
+ * @param {GenericObject} customer
+ */
 function customerSet(customer){
     customer.id.set(10);
     customer.name.set("Joe");
@@ -21,17 +25,7 @@ function customerSet(customer){
 module.exports = testCase({
 
     setUp: function(callback) {
-        this.Customer = function(){
-            return new GenericObject("Customer", [
-                {name: "id", type: "positive", notNull: true, useCast: true},
-                {name: "name", type: "string", notNull: true},
-                {name: "age", type:"positive", notNull: true},
-                {name: "email", type:"email", notNull: true, maxSize: 25},
-                {name: "phone", type: "phone"},
-            ]);
-        };
-
-        this.customer = new this.Customer();
+        this.customer = new Customer();
         callback();
     },
 
@@ -130,7 +124,7 @@ module.exports = testCase({
                 age: 19,
                 email: "joe@email.com",
                 phone: "+559999999999",
-            }, this.Customer);
+            }, Customer);
 
              test.strictEqual(newObj.id.get(), 10, "Error genericobject cast: id");
              test.strictEqual(newObj.name.get(), "Joe", "Error genericobject cast: name");
