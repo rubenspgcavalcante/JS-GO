@@ -66,6 +66,17 @@ module.exports = testCase({
         test.equals(this.collection.find("name", "Fulano 10").length, 2, "Find two objects");
         test.equals(this.collection.find("name", "Fulano Sincrano").length, 0, "Find none objects");
         test.done();
+    },
+
+    FindIndex: function(test){
+        test.expect(3);
+        customerCollectionSet(this.collection);
+
+        test.equals(this.collection.indexOf("id", 10), 9);
+        test.equals(this.collection.indexOf("name", "Fulano 20"), 19);
+        test.equals(this.collection.indexOf("name", "No one"), -1);
+
+        test.done();
     }
 
 });

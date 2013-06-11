@@ -131,9 +131,9 @@ GenericObjectCollection.prototype.indexesOf = function(attr, value){
  * @return {number} The index of the object or -1 if not found
  */
 GenericObjectCollection.prototype.indexOf = function(attr, value){
-    var result = this._find(attr, value, true).index;
+    var result = this._find(attr, value, true);
     if(result != null){
-        return result;
+        return result.index;
     }
     else{
         return -1;
