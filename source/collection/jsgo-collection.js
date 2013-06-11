@@ -188,8 +188,16 @@ GenericObjectCollection.prototype.sort = function(attribute, order){
     this.objects.sort(function(a, b){
         a = a[attribute].get();
         b = b[attribute].get();
-
-        return order == JSGO.ORDER.ASC ? a > b : a < b;
+        
+        if(a > b){
+            if(order == JSGO.ORDER.ASC) return 1;
+            else return -1;
+        }
+        if(a < b){
+            if(order == JSGO.ORDER.ASC) return -1;
+            else return 1;
+        }
+        else return 0;
     });
 };
 

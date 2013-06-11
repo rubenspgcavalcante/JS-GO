@@ -77,6 +77,37 @@ module.exports = testCase({
         test.equals(this.collection.indexOf("name", "No one"), -1);
 
         test.done();
-    }
+    },
+
+    FindIndexes: function(test){
+        test.expect(3);
+        customerCollectionSet(this.collection);
+
+        var customer = new Customer();
+        customer.name.set("Fulano 10");
+        this.collection.add(customer)
+
+        test.equals(this.collection.indexesOf("name", "Fulano 10").length, 2)
+
+        var indexes = this.collection.indexesOf("name", "Fulano 10");
+        test.equals(this.collection.objects[indexes[0]].name.get(), "Fulano 10")
+        test.equals(this.collection.objects[indexes[1]].name.get(), "Fulano 10")
+        test.done();
+    },
+
+    ReverseOrder: function(test){
+        test.expect(1);
+        customerCollectionSet(this.collection);
+
+        this.collection.sort("id", JSGO.ORDER.DESC);
+        var flag = true;
+        for(var i=0; i < 100; i++){
+            if(this.collection.objects[i].id.get() != 100-i){
+                flag = false;
+            }
+        }
+        test.ok(flag, "Reverse sort");
+        test.done();
+    },
 
 });
