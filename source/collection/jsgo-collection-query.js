@@ -67,7 +67,7 @@ GenericObjectCollection.Query = function(collection){
                 var cnt = 0;
 
                 for (i in list){
-                    if(list instanceof className || className == "*" || list[i].header.className == className){
+                    if((typeof(className) != "string" && list instanceof className) || className == "*" || list[i].header.className == className){
 
                         //If the object matches the filters do a (SELECT, DELETE, UPDATE)
                         if(filter.process(list[i])){
