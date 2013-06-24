@@ -207,8 +207,12 @@ GenericObjectCollection.prototype.sort = function(attribute, order){
  * @param {function(index, value)} Callback to process the values
  */
 GenericObjectCollection.prototype.each = function(callback){
+    var _return = true;
     for(var i = 0; i < this.objects.length; i++){
-        callback(i, this.objects[i]);
+        _return = callback(i, this.objects[i]);
+        if(_return == false){
+            break;
+        }
     }
 };
 
