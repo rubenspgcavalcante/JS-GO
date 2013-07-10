@@ -39,14 +39,14 @@ Object.defineProperty(JSGO.OPERATOR, "TAUTOLOGICAL", {
 	enumerable: true,
 	configurable: false,
 	writable: false,
-	value: "eq"
+	value: "taut"
 });
 
 Object.defineProperty(JSGO.OPERATOR, "CONTRADICTORY", {
 	enumerable: true,
 	configurable: false,
 	writable: false,
-	value: "eq"
+	value: "contr"
 });
 
 Object.defineProperty(JSGO.OPERATOR, "EQ", {
@@ -54,6 +54,13 @@ Object.defineProperty(JSGO.OPERATOR, "EQ", {
   configurable: false,
   writable: false,
   value: "eq"
+});
+
+Object.defineProperty(JSGO.OPERATOR, "NEQ", {
+  enumerable: true,
+  configurable: false,
+  writable: false,
+  value: "neq"
 });
 
 Object.defineProperty(JSGO.OPERATOR, "GT", {
@@ -91,6 +98,12 @@ Object.defineProperty(JSGO.OPERATOR, "LIKE", {
 	value: "like"
 });
 
+Object.defineProperty(JSGO.OPERATOR, "HAS", {
+    enumerable: true,
+    configurable: false,
+    writable: false,
+    value: "has"
+});
 
 /*
  * Query methods used into Query Object

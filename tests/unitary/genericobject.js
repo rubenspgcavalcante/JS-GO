@@ -6,10 +6,14 @@
 */
 
 require('../../build/jsgo.js');
-require('./utils.js');
+var objectEquals = require('./utils.js');
+var Customer = require('./models/customer.js');
 var testCase = require('../nodeunit/lib/nodeunit').testCase;
 
-//Util function to set some values
+/**
+ * Util function to set some values
+ * @param {GenericObject} customer
+ */
 function customerSet(customer){
     customer.id.set(10);
     customer.name.set("Joe");
@@ -21,17 +25,7 @@ function customerSet(customer){
 module.exports = testCase({
 
     setUp: function(callback) {
-        this.Customer = function(){
-            return new GenericObject("Customer", [
-                {name: "id", type: "positive", notNull: true, useCast: true},
-                {name: "name", type: "string", notNull: true},
-                {name: "age", type:"positive", notNull: true},
-                {name: "email", type:"email", notNull: true, maxSize: 25},
-                {name: "phone", type: "phone"},
-            ]);
-        };
-
-        this.customer = new this.Customer();
+        this.customer = new Customer();
         callback();
     },
 
@@ -89,11 +83,11 @@ module.exports = testCase({
         Info: function(test) {
             test.expect(5);
 
-            test.ok(this.customer.id.info().equals({type: "positive", notNull: true, useCast: true, maxSize: null }), "Error id");
-            test.ok(this.customer.name.info().equals({type: "string", notNull: true, useCast: false, maxSize: null }), "Error name");
-            test.ok(this.customer.age.info().equals({type:"positive", notNull: true, useCast: false, maxSize: null }), "Error age");
-            test.ok(this.customer.email.info().equals({type:"email", notNull: true, useCast: false, maxSize: 25 }), "Error email");
-            test.ok(this.customer.phone.info().equals({type: "phone", notNull: false, useCast: false , maxSize: null }), "Error phone");
+            test.ok(objectEquals(this.customer.id.info(), {type: "positive", notNull: true, useCast: true, maxSize: null }), "Error id");
+            test.ok(objectEquals(this.customer.name.info(), {type: "string", notNull: true, useCast: false, maxSize: null }), "Error name");
+            test.ok(objectEquals(this.customer.age.info(), {type:"positive", notNull: true, useCast: false, maxSize: null }), "Error age");
+            test.ok(objectEquals(this.customer.email.info(), {type:"email", notNull: true, useCast: false, maxSize: 25 }), "Error email");
+            test.ok(objectEquals(this.customer.phone.info(), {type: "phone", notNull: false, useCast: false , maxSize: null }), "Error phone");
 
             test.done();
         },
@@ -130,7 +124,7 @@ module.exports = testCase({
                 age: 19,
                 email: "joe@email.com",
                 phone: "+559999999999",
-            }, this.Customer);
+            }, Customer);
 
              test.strictEqual(newObj.id.get(), 10, "Error genericobject cast: id");
              test.strictEqual(newObj.name.get(), "Joe", "Error genericobject cast: name");
