@@ -35,5 +35,5 @@ tests: build
 	nodeunit tests/unitary/genericobject.js
 	nodeunit tests/unitary/genericobjectcollection.js
 
-peformance: build
-	nodejs tests/peformance/run.js
+performance: build
+	nodejs tests/performance/run.js
