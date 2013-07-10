@@ -110,4 +110,33 @@ module.exports = testCase({
         test.done();
     },
 
+    Each: function(test){
+        test.expect(1);
+        var index = 0;
+        var flag = true;
+        customerCollectionSet(this.collection);
+        this.collection.each(function(i, data){
+            if(i != index){
+                flag = false;
+            }
+            index++
+        });
+        test.ok(flag, "Each iterator");
+        test.done();
+    },
+
+    EachBreak: function(test){
+      test.expect(1);
+        var index = 0;
+        customerCollectionSet(this.collection);
+        this.collection.each(function(i, data){
+            if(i == 50){
+                return false;
+            }
+            index++
+        });
+        test.equals(index, 50, "Each iterator break");
+        test.done();  
+    }
+
 });

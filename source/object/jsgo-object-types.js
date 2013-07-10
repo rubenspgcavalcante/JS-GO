@@ -116,17 +116,23 @@ GenericObject.typesLibrary = {
         },
 
         cast: function(value){
-            if(typeof(value) == "number") {
+            if (typeof(value) == "number") {
                 return new Date(value);
             }
 
-            else if(typeof(value) == "Object") {
+            else if (typeof(value) == "Object") {
                 return new Date(value[0], value[1], value[2]);
             }
-
-            else {
-                throw GenericObject.typesLibrary.Error.ofCast(value, "date");
+            
+            else if (typeof(value) == "string") {
+                var dateParsed = new Date(value);
+                
+                if (dateParsed.isValid()) {
+                    return dateParsed;
+                }
             }
+            
+            throw GenericObject.typesLibrary.Error.ofCast(value, "date");
         }
     },
 
