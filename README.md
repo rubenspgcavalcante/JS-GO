@@ -28,7 +28,7 @@ __Can be used both in client side and server side with nodejs__
 
 ##Download
 You can download it in the minified format:  
-[last version minified](https://raw.github.com/rubenspgcavalcante/JS-GO/master/build/jsgo-0.46.min.js)
+[last version minified](https://raw.github.com/rubenspgcavalcante/JS-GO/master/build/jsgo-0.48.min.js)
 
 ##How to use?
 See how to use it the complete API in [JS-GO Wiki](https://github.com/rubenspgcavalcante/JS-GO/wiki)
@@ -73,10 +73,10 @@ _Now just run the tests by doing: (in the project root directory)_
 make tests
 ````
 
-###Peforamance
-To verify peformance do:
+###Performance
+To verify performance do:
 ````
-make peformance
+make performance
 ````
 
 ##Author
