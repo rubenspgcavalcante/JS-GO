@@ -27,7 +27,7 @@ GenericObject.typesLibrary = {
     number: {
         //Can be used as float too
         validate: function(value){
-            return typeof(value) == "number";
+            return typeof(value) == "number" && !isNaN(value);
         },
         cast: function(value){
             return Number(value);
