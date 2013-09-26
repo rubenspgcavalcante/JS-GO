@@ -2,7 +2,7 @@
  * Contains enumerations used into the jsgo
  * @enum {Object}
  */
-JSGO = new Object();
+JSGO = {};
 
 Object.defineProperty(JSGO, "OPERATOR", {
   enumerable: true,

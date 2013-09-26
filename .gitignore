@@ -4,4 +4,5 @@ jsgo.js
 *.pyc
 .project
 .settings/*
+.idea/*
 .pydevproject

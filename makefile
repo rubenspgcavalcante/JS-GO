@@ -2,6 +2,7 @@ BUILDPATH=build/jsgo.js
 SOURCEDIR=source/
 OBJECTDIR=${SOURCEDIR}object/
 COLLECTIONDIR=${SOURCEDIR}collection/
+QUERYDIR=${SOURCEDIR}query/
 
 .PHONY: build
 .PHONY: tests
@@ -16,6 +17,12 @@ MODULES = ${SOURCEDIR}license-header.txt\
           $(COLLECTIONDIR)jsgo-collection-select.js\
           $(COLLECTIONDIR)jsgo-collection-update.js\
           $(COLLECTIONDIR)jsgo-collection-delete.js\
+          $(QUERYDIR)jsgo-query-defines.js\
+          $(QUERYDIR)jsgo-query.js\
+          $(QUERYDIR)jsgo-query-from.js\
+          $(QUERYDIR)jsgo-query-where.js\
+          $(QUERYDIR)jsgo-query-filter.js\
+          $(QUERYDIR)jsgo-query-processor.js\
 
 all: build tests minify
 
