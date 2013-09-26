@@ -6,6 +6,7 @@
  */
 GO.Query._Where = function(query){
     var _query = query;
+    query._setRecord("where", this);
 
     /** @type {GO.Query.Filter}*/
     this.filter = null;
@@ -40,6 +41,6 @@ GO.Query._Where = function(query){
      */
     this.where = function(filter){
         this.filter = filter;
-
+        return new GO.Query._Processor(_query);
     };
 };

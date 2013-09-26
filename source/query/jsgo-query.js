@@ -13,6 +13,7 @@ GO.Query = function(collection){
      * @property {Number} type The query type (User {@link{GO.Query.type}} enum)
      * @property {String[]} selection
      * @property {GO.Query._From} from Object to register 'from' call into the query
+     * @property {GO.Query._Where} where
      */
     var record = {
         type: null,
