@@ -62,7 +62,7 @@ collection.add(customer1, customer2, customer3, customer4, customer5, seller1, s
 /*
  * Creating the query object and a short denomination to the Filter constructor
  */
-var query = new GenericObjectCollection.Query(collection);
+var query = new GO.Query(collection.toObjects());
 var Filter = GenericObjectCollection.Filter;
 
 
@@ -75,16 +75,16 @@ var Filter = GenericObjectCollection.Filter;
 document.onreadystatechange = function(){
     if ('complete' == document.readyState) {
         document.getElementById("before").innerHTML = collection.prettyPrint();
-        query = query.Select("id", "name", "email").From("Customer").Where(new Filter("email", JSGO.OPERATOR.LIKE, /(@email.com)$/));
+        query = query.update("email").from(Object).where(new GO.Query.Filter("email", GO.op.LIKE, /(@email.com)$/)).set("haha");
 
         var result = query.run();
 
         var html = "";
         for(i in result){
             html += "<ul>";
-                html += "<li>"+ result[i].id.get() +"</li>";
-                html += "<li>"+ result[i].name.get() +"</li>";
-                html += "<li>"+ result[i].email.get() +"</li>";
+                html += "<li>"+ result[i].id +"</li>";
+                html += "<li>"+ result[i].name +"</li>";
+                html += "<li>"+ result[i].email +"</li>";
             html += "</ul><br/>";
         }
 

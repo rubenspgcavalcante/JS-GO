@@ -56,9 +56,8 @@ GO.Query = function(collection){
      * @return {GO.Query._From} from object
      */
     this.select = function(){
-        query.type = GO.query.type.SELECT;
-        query.selection = [];
-        query.selection.push(arguments);
+        record.type = GO.query.type.SELECT;
+        record.selection = arguments;
         return new GO.Query._From(this);
     };
 
@@ -67,7 +66,7 @@ GO.Query = function(collection){
      * @return {GO.Query._From} from object
      */
     this.update = function(){
-        query.type = GO.query.type.UPDATE;
+        record.type = GO.query.type.UPDATE;
         return new GO.Query._From(this);
     };
 
@@ -75,8 +74,9 @@ GO.Query = function(collection){
      * Do a delete operation into the collection
      * @returns {GO.Query._From}
      */
-    this.delete = function(){
-        query.type = GO.query.type.DELETE;
+    this.remove = function(){
+        record.type = GO.query.type.DELETE;
+        record.selection = arguments;
         return new GO.Query._From(this);
     };
 };

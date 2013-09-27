@@ -1,11 +1,14 @@
 /**
  * JSGO global namespace
  * @namespace
- * @property {Object} query Defines the query enums
  */
-GO = {
-    query: {}
-};
+GO = {};
+
+/**
+ * Query env namespace
+ * @namespace
+ */
+GO.query = {};
 
 /**
  * Describes the query types
@@ -19,11 +22,17 @@ GO.query.type = {
 };
 
 /**
+ * @constant {String}
+ * @default
+ */
+GO.query.WILDCARD = "*";
+
+/**
  * Describes the query operators
  * @readonly
  * @enum {Number}
  */
-GO.query.op = {
+GO.op = {
     TAUTOLOGICAL: 0,
     CONTRADICTORY: 1,
     EQ: 2,
@@ -41,7 +50,7 @@ GO.query.op = {
  * @readonly
  * @enum {Number}
  */
-GO.query.order = {
+GO.order = {
     ASC: 0,
     DESC: 1
 };
